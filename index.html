@@ -1,0 +1,2905 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="briefing">
+  <title>高三英文段考互動複習與能力診斷｜ED 10月號 × L03 × L04 × CEEC L4–L6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces: warm stone-white paper (Briefing) */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      /* Ink */
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      /* Rules */
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+      --outline-button: #c8c4b8;
+
+      /* Accents */
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --secondary-soft: #e6eff2;
+      --tertiary: #785008;
+      --tertiary-soft: #f5e6c4;
+      --error: #b42318;
+      --error-soft: #fdeceb;
+      --on-error: #ffffff;
+
+      /* Semantic */
+      --positive: #2b6e52;
+      --positive-soft: #e6f2ec;
+      --warning: #b85d00;
+      --warning-soft: #fdf0e1;
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Focus ring */
+      --focus: #1f4e5f;
+
+      /* Fonts */
+      --font-headline: 'Noto Serif TC', 'Source Serif 4', serif;
+      --font-body: 'Noto Sans TC', 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', 'Noto Sans TC', monospace;
+
+      /* Type scale (Dashboard) */
+      --display-size: clamp(1.75rem, 1.35rem + 1.3vw, 2.35rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.55vw, 1.55rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Shape */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+
+      /* Style effects */
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --badge-radius: 2px;
+      --heading-tracking: -0.015em;
+      --label-tracking: 0.06em;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xl);
+      padding: var(--space-lg);
+      max-width: 1220px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Briefing Dossier Bars */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.22rem 0.55rem;
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+    }
+
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.15;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      color: var(--secondary);
+      margin: var(--space-xs) 0 0 0;
+      max-width: 68ch;
+      line-height: 1.5;
+    }
+    .section-heading {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      line-height: 1.2;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .section-sub {
+      color: var(--on-surface-variant);
+      font-size: var(--body-size);
+      margin: var(--space-xs) 0 0 0;
+      max-width: 65ch;
+    }
+
+    /* Quick Jump Bar */
+    .jump-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .jump-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .jump-btn:hover {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+    .jump-num {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    /* KPI Summary Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .kpi-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+    .kpi-value {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.85rem;
+      line-height: 1.15;
+      margin: var(--space-xs) 0;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--on-surface);
+    }
+    .kpi-note {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+
+    /* Buttons & Controls */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { opacity: 0.48; cursor: not-allowed; transform: none; }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+    .btn-secondary {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border-color: var(--outline-button);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+    .btn-accent {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--primary-container);
+    }
+    .btn-accent:hover:not(:disabled) {
+      background: var(--tertiary-soft);
+      border-color: var(--tertiary);
+    }
+    .btn-danger {
+      background: var(--error-soft);
+      color: var(--error);
+      border-color: var(--error);
+    }
+
+    /* Tab Strip inside panels */
+    .panel-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .tab-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container);
+      color: var(--on-surface);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .tab-btn:hover { background: var(--surface-container-high); }
+    .tab-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    /* Aside / Notice callouts */
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+    }
+    .notice-bar {
+      background: var(--tertiary-soft);
+      border-left: 4px solid var(--tertiary);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-size: 0.875rem;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+    .notice-bar--info {
+      background: var(--secondary-soft);
+      border-left-color: var(--secondary);
+    }
+
+    /* Section 01: Reading Notes & Comparison Layouts */
+    .split-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+    .article-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .article-card-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: var(--space-sm);
+    }
+    .unit-tag {
+      font-family: var(--font-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--badge-radius);
+      background: var(--tertiary-soft);
+      color: var(--tertiary);
+    }
+    .unit-tag--blue {
+      background: var(--secondary-soft);
+      color: var(--secondary);
+    }
+    .unit-tag--green {
+      background: var(--positive-soft);
+      color: var(--positive);
+    }
+    .article-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .bullet-list {
+      margin: 0;
+      padding-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      font-size: 0.925rem;
+    }
+    .highlight-chip {
+      display: inline-block;
+      background: var(--surface-container);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.1rem 0.45rem;
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    /* Interactive L03 Venn Explorer */
+    .venn-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .venn-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    @media (max-width: 820px) {
+      .venn-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    .venn-col {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      transition: background-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+    }
+    .venn-col.is-shared {
+      background: var(--secondary-soft);
+      border-color: var(--secondary);
+    }
+    .venn-col.is-dimmed {
+      opacity: 0.45;
+    }
+    .venn-col h4 {
+      margin: 0 0 var(--space-sm) 0;
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* L04 Pro/Con Table */
+    .data-table-wrap {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table.briefing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    table.briefing-table th {
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--section-rule);
+      background: var(--surface-container);
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      color: var(--on-surface);
+      font-weight: 600;
+    }
+    table.briefing-table td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+    }
+    table.briefing-table tr:last-child td { border-bottom: none; }
+
+    /* Section 02: Vocabulary Controls & Grid */
+    .filter-toolbar {
+      display: grid;
+      grid-template-columns: minmax(200px, 1.4fr) repeat(3, minmax(150px, 1fr)) auto;
+      gap: var(--space-md);
+      align-items: end;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    @media (max-width: 960px) {
+      .filter-toolbar {
+        grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      }
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--on-surface);
+    }
+    .field-input, .field-select {
+      min-height: 44px;
+      padding: 0.5rem 0.75rem;
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: 1px solid var(--outline-button);
+      border-radius: var(--rounded);
+      font-size: 0.925rem;
+    }
+    .field-select {
+      padding-right: 2rem;
+    }
+
+    .vocab-stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+    }
+
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(310px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .vocab-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .vocab-card.is-mastered {
+      border-left: 4px solid var(--positive);
+    }
+    .vocab-card.is-review {
+      border-left: 4px solid var(--warning);
+    }
+    .vocab-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .vocab-word {
+      font-family: 'Source Serif 4', 'Noto Serif TC', serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      line-height: 1.2;
+      color: var(--on-surface);
+    }
+    .vocab-pos {
+      font-family: var(--font-label);
+      font-size: 0.8rem;
+      color: var(--on-surface-variant);
+      margin-top: 2px;
+    }
+    .ceec-badge {
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.48rem;
+      border-radius: var(--badge-radius);
+      white-space: nowrap;
+    }
+    .ceec-l4 {
+      background: var(--secondary-soft);
+      color: var(--secondary);
+    }
+    .ceec-l5 {
+      background: var(--tertiary-soft);
+      color: var(--tertiary);
+    }
+    .ceec-l6 {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+    .vocab-meaning {
+      font-weight: 600;
+      color: var(--on-surface);
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      cursor: pointer;
+    }
+    .vocab-meaning.is-masked {
+      color: transparent;
+      text-shadow: 0 0 8px var(--on-surface-variant);
+      user-select: none;
+    }
+    .vocab-meaning.is-masked::after {
+      content: '點擊顯示中文釋義';
+      color: var(--secondary);
+      text-shadow: none;
+      font-size: 0.8rem;
+      margin-left: -100%;
+    }
+    .vocab-sentence {
+      font-size: 0.86rem;
+      color: var(--on-surface-variant);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .vocab-colloc {
+      font-size: 0.8rem;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    .vocab-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      padding-top: var(--space-xs);
+      border-top: 1px solid var(--outline-variant);
+    }
+    .vocab-action-btns {
+      display: flex;
+      gap: var(--space-xs);
+    }
+    .mini-btn {
+      min-height: 44px;
+      padding: 0.3rem 0.65rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-button);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .mini-btn:hover { background: var(--surface-container); }
+    .mini-btn.active-mastered {
+      background: var(--positive-soft);
+      border-color: var(--positive);
+      color: var(--positive);
+    }
+    .mini-btn.active-review {
+      background: var(--warning-soft);
+      border-color: var(--warning);
+      color: var(--warning);
+    }
+
+    /* Section 03: Quiz Engine */
+    .quiz-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .quiz-shell { grid-template-columns: minmax(0, 1fr); }
+    }
+    .quiz-sidebar {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .q-map-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-xs);
+    }
+    .q-pip {
+      min-height: 44px;
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .q-pip.is-current {
+      outline: 2px solid var(--primary);
+      outline-offset: 1px;
+    }
+    .q-pip.is-correct {
+      background: var(--positive-soft);
+      border-color: var(--positive);
+      color: var(--positive);
+    }
+    .q-pip.is-wrong {
+      background: var(--error-soft);
+      border-color: var(--error);
+      color: var(--error);
+    }
+    .quiz-main-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .passage-excerpt {
+      background: var(--surface-container);
+      border-left: 3px solid var(--secondary);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--on-surface);
+    }
+    .question-stem {
+      font-size: 1.08rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .option-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      width: 100%;
+      min-height: 48px;
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-button);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .option-btn:hover:not(:disabled) {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+    .option-btn.is-correct {
+      background: var(--positive-soft);
+      border-color: var(--positive);
+      color: var(--on-surface);
+    }
+    .option-btn.is-wrong {
+      background: var(--error-soft);
+      border-color: var(--error);
+      color: var(--on-surface);
+    }
+    .option-letter {
+      font-family: var(--font-label);
+      font-weight: 700;
+      color: var(--secondary);
+      flex-shrink: 0;
+    }
+    .explanation-box {
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    .explanation-box.is-correct {
+      border-color: var(--positive);
+      background: var(--positive-soft);
+    }
+    .explanation-box.is-wrong {
+      border-color: var(--error);
+      background: var(--error-soft);
+    }
+    .quiz-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+    }
+
+    /* Section 04: Mistake Review Zone */
+    .mistake-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .mistake-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-left: 4px solid var(--error);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .mistake-card.is-repracticed-ok {
+      border-left-color: var(--positive);
+    }
+    .mistake-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+    .repractice-panel {
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin-top: var(--space-xs);
+    }
+
+    /* Section 05: Comprehensive Assessment */
+    .assessment-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+    }
+    @media (max-width: 900px) {
+      .assessment-grid { grid-template-columns: minmax(0, 1fr); }
+    }
+    .chart-box {
+      position: relative;
+      min-height: 280px;
+      width: 100%;
+    }
+    .domain-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-xs) var(--space-md);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--outline-variant);
+      align-items: center;
+    }
+    .domain-row:last-child { border-bottom: none; }
+    .progress-track {
+      grid-column: 1 / -1;
+      height: 8px;
+      background: var(--surface-container-high);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--data-1);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .grade-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 56px;
+      height: 56px;
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.75rem;
+      border-radius: var(--rounded);
+    }
+
+    .empty-state {
+      background: var(--surface-container-low);
+      border: 1px dashed var(--outline-button);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .site-footer {
+      border-top: var(--section-rule);
+      padding-top: var(--space-md);
+      padding-bottom: var(--space-lg);
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-lg);
+      }
+      .figure-card, .article-card, .quiz-main-card, .mistake-card {
+        padding: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <!-- HEADER DOSSIER -->
+    <header>
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">SENIOR 3 EXAM DOSSIER</span>
+          <span class="dossier-meta">ED 10月號 × L03 FORMOSA × L04 LAB-GROWN MEAT × CEEC L4–L6</span>
+        </div>
+        <span class="dossier-meta" id="sync-status-label">PROGRESS SYNCED</span>
+      </div>
+      <h1 class="title">高三英文段考互動複習與能力診斷</h1>
+      <p class="standfirst">整合《English Digest》10月號精選單元、龍騰／三民課本 L03〈Formosa〉與 L04〈Lab-Grown Meat〉，對應大考中心《高中英文參考詞彙表》Level 4–6 高階單字，提供實戰測驗、錯題二次練習與獨立綜合評估。</p>
+
+      <nav class="jump-nav" aria-label="章節快速跳轉">
+        <button type="button" class="jump-btn" onclick="scrollToSection('section-notes')">
+          <span class="jump-num">01</span> 段考核心篇章筆記
+        </button>
+        <button type="button" class="jump-btn" onclick="scrollToSection('section-vocab')">
+          <span class="jump-num">02</span> Level 4–6 高階字彙庫
+        </button>
+        <button type="button" class="jump-btn" onclick="scrollToSection('section-quiz')">
+          <span class="jump-num">03</span> 段考實戰模擬測驗
+        </button>
+        <button type="button" class="jump-btn" onclick="scrollToSection('section-mistakes')">
+          <span class="jump-num">04</span> 錯題複習專區 <span id="nav-mistake-count" class="unit-tag">0</span>
+        </button>
+        <button type="button" class="jump-btn" onclick="scrollToSection('section-assessment')">
+          <span class="jump-num">05</span> 綜合性評估報告
+        </button>
+      </nav>
+
+      <!-- Top KPI Strip -->
+      <div class="kpi-grid">
+        <div class="figure-card">
+          <div class="kpi-label"><span>L4–L6 單字精熟進度</span><i data-lucide="book-open" width="16" height="16" aria-hidden="true"></i></div>
+          <div class="kpi-value" id="kpi-vocab-mastered">0 / 32</div>
+          <p class="kpi-note">已標記精熟之大考第 4–6 級核心字彙</p>
+        </div>
+        <div class="figure-card">
+          <div class="kpi-label"><span>正式測驗作答進度</span><i data-lucide="clipboard-check" width="16" height="16" aria-hidden="true"></i></div>
+          <div class="kpi-value" id="kpi-quiz-progress">0 / 15</div>
+          <p class="kpi-note">涵蓋克漏字、閱讀理解、比較策略與詞彙</p>
+        </div>
+        <div class="figure-card">
+          <div class="kpi-label"><span>正式初次作答正確率</span><i data-lucide="bar-chart-2" width="16" height="16" aria-hidden="true"></i></div>
+          <div class="kpi-value" id="kpi-initial-accuracy">--</div>
+          <p class="kpi-note">綜合評估唯一採計指標（不含錯題重練）</p>
+        </div>
+        <div class="figure-card">
+          <div class="kpi-label"><span>錯題專區待訂正</span><i data-lucide="alert-circle" width="16" height="16" aria-hidden="true"></i></div>
+          <div class="kpi-value" id="kpi-mistake-pending">0 題</div>
+          <p class="kpi-note" id="kpi-mistake-note">答錯題目將自動收入錯題複習專區</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 01: EXAM READING & STRATEGY NOTES -->
+    <section id="section-notes" aria-labelledby="heading-notes">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">SECTION 01</span>
+          <span class="dossier-meta">CORE PASSAGES &amp; READING STRATEGIES</span>
+        </div>
+        <span class="dossier-meta">SOURCE DIGEST</span>
+      </div>
+      <h2 class="section-heading" id="heading-notes">段考核心篇章與閱讀策略總覽</h2>
+      <p class="section-sub">切換不同段考單元，快速檢視文章架構、關鍵數據、寫作／文法考點與對應高階單字。</p>
+
+      <div class="panel-tabs" role="tablist" aria-label="段考單元筆記切換" style="margin-top: var(--space-md);">
+        <button type="button" class="tab-btn is-active" id="tab-notes-ed" onclick="switchNotesTab('ed')">ED 10月號精選（Unit 1, 2, 7, 8, 10）</button>
+        <button type="button" class="tab-btn" id="tab-notes-l03" onclick="switchNotesTab('l03')">L03 Formosa 互動對照文氏圖</button>
+        <button type="button" class="tab-btn" id="tab-notes-l04" onclick="switchNotesTab('l04')">L04 Lab-Grown Meat 正反實證表</button>
+        <button type="button" class="tab-btn" id="tab-notes-grammar" onclick="switchNotesTab('grammar')">本月文法與不發音字母速查</button>
+      </div>
+
+      <!-- Notes Panel: ED October -->
+      <div id="notes-panel-ed" class="split-grid">
+        <article class="article-card">
+          <div class="article-card-head">
+            <span class="unit-tag">Unit 1 · 10/1 克漏字 ★★</span>
+            <span class="dossier-meta">P. 6–9</span>
+          </div>
+          <h3 class="article-title">The Yeti: Monster, Myth, or Bear?</h3>
+          <p style="margin:0; font-size:0.9rem; color:var(--on-surface-variant);">喜馬拉雅山中的神祕雪人｜誤譯史與科學驗證</p>
+          <ul class="bullet-list">
+            <li><strong>名稱誤譯考點：</strong>1921 年喜馬拉雅語 <em>metoh-kangmi</em>（人熊雪人）被誤譯為 <em>Abominable Snowman</em>，這個令人畏懼的名稱（<span class="highlight-chip">label</span>）從此流傳。</li>
+            <li><strong>雪巴文化觀點：</strong>雪人在宗教傳統中佔有一席之地（<span class="highlight-chip">holds a place in</span>），被視為山岳守護靈或能穿梭物質與靈界之生物，體型從 15 呎巨獸到無聲穿行（<span class="highlight-chip">that moves</span>）森林的紅毛小生物皆有。</li>
+            <li><strong>科學鑑定真相：</strong>20 世紀探險引發熱潮（<span class="highlight-chip">triggering</span>）；尼泊爾寺廟展出的頭皮實為當地獸皮、手骨為人類遺骸，科學檢驗說出不同故事（<span class="highlight-chip">told a different story</span>）。DNA 分析證實多為喜馬拉雅棕熊。</li>
+          </ul>
+        </article>
+
+        <article class="article-card">
+          <div class="article-card-head">
+            <span class="unit-tag unit-tag--blue">Unit 2 · 10/2 新聞剪影 ★★</span>
+            <span class="dossier-meta">P. 10–11</span>
+          </div>
+          <h3 class="article-title">News Watch：芬蘭核廢料 × 辛奇益生菌</h3>
+          <ul class="bullet-list">
+            <li><strong>芬蘭 Onkalo 地下處置庫：</strong>位於奧爾基洛托島，2004 年起興建至地表下逾 <strong>400 公尺</strong>，芬蘭語意為「洞穴」。高放射性燃料棒封於銅罐，外圍以遇水膨脹（<span class="highlight-chip">expand</span>）的膨潤土阻水，並選址於 <strong>19 億年</strong>高穩定性（<span class="highlight-chip">stability</span>）、低地震風險岩床。預期運作約一世紀後永久封存，但專家仍警覺長期腐蝕與地質變動風險。</li>
+            <li><strong>韓國辛奇（Kimchi）益生菌：</strong>從辛奇分離（<span class="highlight-chip">isolate</span>）出的乳酸菌 <em>Leuconostoc mesenteroides</em> CBA3656，在實驗室中能結合聚苯乙烯奈米塑膠。動物實驗中，餵食益生菌的小鼠糞便排出奈米塑膠量為對照組<strong>兩倍以上</strong>；但發現仍屬初步階段（<span class="highlight-chip">preliminary</span>），尚需更多人體研究。</li>
+          </ul>
+        </article>
+
+        <article class="article-card">
+          <div class="article-card-head">
+            <span class="unit-tag unit-tag--green">Unit 3, 7, 8, 10 · 跨單元精粹</span>
+            <span class="dossier-meta">P. 14–48</span>
+          </div>
+          <h3 class="article-title">新聞文摘、中職應援文化與龐貝城字彙</h3>
+          <ul class="bullet-list">
+            <li><strong>Unit 7 新聞文摘（印度移工議題 ★★★）：</strong>文章組織架構考題重點為「提出政策 → 檢視成因 → 回應公眾疑慮 → 討論政策侷限」（Presenting a policy, examining its causes, addressing public concerns, and discussing its limitations）。</li>
+            <li><strong>Unit 8 中職啦啦隊文化（CPBL Cheer Culture）：</strong>平日晚間球場即充滿電子音樂與熱情（<span class="highlight-chip">enthusiastic</span>）球迷，結合 <span class="highlight-chip">dedication</span>（投入）、<span class="highlight-chip">memorize</span>（背熟應援）、<span class="highlight-chip">interact</span>（互動）與 <span class="highlight-chip">spectator</span>（觀眾）體驗，成為台灣棒球最鮮明的娛樂文化。</li>
+            <li><strong>Unit 10 龐貝（Pompeii ★★★）：</strong>必背高階單字含 <span class="highlight-chip">catastrophe</span>（大災難）、<span class="highlight-chip">capsule</span>（膠囊）、<span class="highlight-chip">cavity</span>（空穴）、<span class="highlight-chip">posture</span>（姿勢）、<span class="highlight-chip">cling</span>（抓緊）、<span class="highlight-chip">pedestrian</span>（行人）。</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- Notes Panel: L03 Formosa Interactive Venn -->
+      <div id="notes-panel-l03" style="display:none;">
+        <div class="aside-box" style="margin-bottom: var(--space-md);">
+          <strong>閱讀策略聚焦（Comparing &amp; Contrasting + Supporting Details）：</strong>
+          作者 Mark Darvill 先以歷史事實說明兩座 Formosa 的共同起源，再於第 4、5 段以對比（Contrast）手法剖析自然景觀與經濟型態的巨大差異。點擊下方篩選按鈕，高亮檢視「兩地共同點」或「各自獨有特徵」。
+        </div>
+        <div class="venn-controls">
+          <button type="button" class="tab-btn is-active" id="venn-btn-all" onclick="filterVenn('all')">顯示全部對照</button>
+          <button type="button" class="tab-btn" id="venn-btn-shared" onclick="filterVenn('shared')">只高亮共同特徵（Intersection）</button>
+          <button type="button" class="tab-btn" id="venn-btn-diff" onclick="filterVenn('diff')">聚焦台灣 vs. 阿根廷差異</button>
+        </div>
+        <div class="venn-grid">
+          <div class="venn-col" id="venn-col-tw">
+            <h4><span>台灣 Formosa</span><span class="unit-tag unit-tag--blue">23° N · 東亞島嶼</span></h4>
+            <ul class="bullet-list">
+              <li><strong>命名者：</strong>16 世紀葡萄牙水手（Portuguese sailors）命名為 <em>Ilha Formosa</em>（美麗之島）。</li>
+              <li><strong>面積與位置：</strong>約 36,000 平方公里之海島，位於北回歸線（23° N）附近。</li>
+              <li><strong>地形與生態：</strong>三分之二為高聳森林山脈（海拔數千公尺），山谷、溪流與礁岩孕育數百種台灣特有物種（unique species）。</li>
+              <li><strong>經濟特色：</strong>資訊科技（IT）與高科技產業舉足輕重。</li>
+            </ul>
+          </div>
+          <div class="venn-col is-shared" id="venn-col-shared">
+            <h4><span>兩地共同點（Overlap）</span><span class="unit-tag">16 世紀 · 對蹠位置</span></h4>
+            <ul class="bullet-list">
+              <li><strong>歷史巧合：</strong>皆於 <strong>16 世紀</strong>被歐洲探險家意外抵達（unintentionally reached）並以歐洲語系命名（意皆為「美麗」）。</li>
+              <li><strong>緯度對稱：</strong>距離赤道相同距離（約 23° N 與 23° S）。</li>
+              <li><strong>地球位置：</strong>彼此位居地球上完全相反的另一端（exact opposite side of the world）。</li>
+              <li><strong>作者期許：</strong>兩地人民有朝一日能面對面認識彼此，締造美麗友誼。</li>
+            </ul>
+          </div>
+          <div class="venn-col" id="venn-col-ar">
+            <h4><span>阿根廷 Formosa</span><span class="unit-tag unit-tag--green">23° S · 南美內陸</span></h4>
+            <ul class="bullet-list">
+              <li><strong>命名者：</strong>16 世紀西班牙探險家（Spanish explorers）於巴拉圭河畔命名。</li>
+              <li><strong>面積與位置：</strong>面積為台灣的<strong>兩倍大</strong>，位於南美洲巴拉圭河岸（23° S）。</li>
+              <li><strong>地形與氣候：</strong>地勢多平坦（fairly flat），由林木、草原與沼澤（marshland）組成；東部地區雨量較多，擁有更多森林與溪流。</li>
+              <li><strong>經濟對比：</strong>並非以資訊科技為主導，呈現截然不同的產業樣貌。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes Panel: L04 Lab-Grown Meat -->
+      <div id="notes-panel-l04" style="display:none;">
+        <div class="aside-box" style="margin-bottom: var(--space-md);">
+          <strong>製程與作者立場定調：</strong>
+          培植肉（Cultured / Lab-grown meat）透過提取動物幹細胞（stem cells）→ 轉化為原始纖維（<span class="highlight-chip">primitive fibers</span>）→ 結合形成肌肉組織（<span class="highlight-chip">muscle tissue</span>），獲比爾蓋茲與農企巨擘 Cargill 支持。全文同時權衡正反實證，作者態度為 <strong>Cautious（審慎保留）</strong>。
+        </div>
+        <div class="data-table-wrap">
+          <table class="briefing-table">
+            <thead>
+              <tr>
+                <th style="width: 14%;">立場維度</th>
+                <th style="width: 38%;">核心論點（Arguments）</th>
+                <th style="width: 48%;">課文實證與關鍵數據（Evidence &amp; Vocab）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="unit-tag unit-tag--green">YES 支持方</span></td>
+                <td><strong>1. 消除不人道對待動物</strong><br>免除屠宰場與肉品工廠的身心折磨。</td>
+                <td>消費者可放心餐盤上的培植漢堡肉排非來自遭受身心折磨（<span class="highlight-chip">torment</span>）與不道德對待（<span class="highlight-chip">unethical</span>）的牛隻。</td>
+              </tr>
+              <tr>
+                <td><span class="unit-tag unit-tag--green">YES 支持方</span></td>
+                <td><strong>2. 提升環境永續、對抗氣候變遷</strong><br>大幅減少傳統畜牧業排放。</td>
+                <td>聯合國糧農組織（FAO）指出傳統畜牧業（<span class="highlight-chip">livestock</span>）佔全球溫室氣體排放近 <strong>15%</strong>；改採培植肉估計（<span class="highlight-chip">estimate</span>）可降低排放高達 <strong>96%</strong>。</td>
+              </tr>
+              <tr>
+                <td><span class="unit-tag unit-tag--green">YES 支持方</span></td>
+                <td><strong>3. 更健康且營養均衡</strong><br>可客製化強化營養成分。</td>
+                <td>科學家能在培植肉中添加天然肉品未必具備的維生素（<span class="highlight-chip">vitamins</span>）與礦物質（<span class="highlight-chip">minerals</span>）。</td>
+              </tr>
+              <tr>
+                <td><span class="unit-tag">NO 反對／疑慮</span></td>
+                <td><strong>1. 長期負面影響與高耗能</strong><br>維持實驗室培養設備需極高能源。</td>
+                <td>維持細胞培養的基礎設施（<span class="highlight-chip">infrastructure</span>）需要龐大數量（<span class="highlight-chip">quantities</span>）的能源，同樣可能導致大量氣體排放。</td>
+              </tr>
+              <tr>
+                <td><span class="unit-tag">NO 反對／疑慮</span></td>
+                <td><strong>2. 人工合成之健康安全隱憂</strong><br>類似基因改造食品的潛在風險。</td>
+                <td>如同基改食品（<span class="highlight-chip">genetically</span> modified food），後者（<span class="highlight-chip">latter</span>）有時被指會誘發過敏反應（<span class="highlight-chip">induce allergic reactions</span>）甚至更嚴重健康問題。</td>
+              </tr>
+              <tr>
+                <td><span class="unit-tag">NO 反對／疑慮</span></td>
+                <td><strong>3. 風味與消費者接受度</strong><br>口感未必如真肉般吸引人。</td>
+                <td>人造肉可能在風味與質地上有所欠缺，是否能為大眾接受仍是決定其成敗的關鍵挑戰之一。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Notes Panel: Grammar & Silent Letters -->
+      <div id="notes-panel-grammar" style="display:none;">
+        <div class="split-grid">
+          <article class="article-card">
+            <div class="article-card-head">
+              <span class="unit-tag unit-tag--blue">ED 10月號文法總整理</span>
+              <span class="dossier-meta">P. 22–78</span>
+            </div>
+            <h3 class="article-title">六大段考高頻文法重點</h3>
+            <ul class="bullet-list">
+              <li><strong>U4「more than」的用法（P. 22）：</strong>除「超過（數字）」外，如 <em>More Than Baseball</em> 表「不僅僅是……」，或接名詞／形容詞表達「非……所能形容」。</li>
+              <li><strong>U7「名詞子句」的用法（P. 34）：</strong>由 <em>that / whether / wh-</em> 引導，作主詞、受詞或補語。</li>
+              <li><strong>U8「若不是……」的用法（P. 40）：</strong>假設語氣常用 <em>If it were not for... / If it had not been for... / But for... / Without...</em>。</li>
+              <li><strong>U11「完成式」的用法 (2)（P. 54）：</strong>搭配過去完成式與未來完成式表示動作發生之先後順序。</li>
+              <li><strong>U12 關代的補述／非限定用法（P. 61）：</strong>逗號後接 <em>which / who</em>，不可用 <em>that</em>，且先行詞可為前面整個子句。</li>
+              <li><strong>U14 <em>hope</em> vs. <em>wish</em> ＆ U16 條件句（P. 70, 78）：</strong><em>hope</em> 表可能實現之希望（用直說語氣）；<em>wish</em> 接與事實相反之假設語氣。</li>
+            </ul>
+          </article>
+          <article class="article-card">
+            <div class="article-card-head">
+              <span class="unit-tag">Unit 4 · 英語字彙冷知識</span>
+              <span class="dossier-meta">P. 18–20</span>
+            </div>
+            <h3 class="article-title">The Hidden History of Silent Letters</h3>
+            <p style="margin:0; font-size:0.9rem; color:var(--on-surface-variant);">英語單字裡的隱形客：那些不發音的字母</p>
+            <ul class="bullet-list">
+              <li><strong>不發音的 k：</strong><span class="highlight-chip">knife</span>、<span class="highlight-chip">knee</span>、<span class="highlight-chip">knight</span>、<span class="highlight-chip">knot</span>（古英語原本發音，隨語音演變脫落但保留拼字）。</li>
+              <li><strong>不發音的 h：</strong><span class="highlight-chip">hour</span>、<span class="highlight-chip">honest</span>（受法語借字發音影響，使用不定冠詞須搭配 <em>an</em>）。</li>
+              <li><strong>不發音的 s / p / b：</strong><span class="highlight-chip">island</span>（s）、<span class="highlight-chip">receipt</span>（p）、<span class="highlight-chip">debt</span>（b）、<span class="highlight-chip">doubt</span>（b）— 許多源自文藝復興時期學者為還原拉丁字源而刻意補回的字母。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: CEEC LEVEL 4-6 VOCABULARY EXPLORER -->
+    <section id="section-vocab" aria-labelledby="heading-vocab">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">SECTION 02</span>
+          <span class="dossier-meta">CEEC 111學年度高中英文參考詞彙表 · LEVEL 4–6</span>
+        </div>
+        <span class="dossier-meta" id="vocab-count-badge">32 HIGH-LEVEL WORDS</span>
+      </div>
+      <h2 class="section-heading" id="heading-vocab">段考連動大考 Level 4–6 高階單字庫</h2>
+      <p class="section-sub">精選本次段考範圍中對應《高中英文參考詞彙表》第 4 至第 6 級之必考單字，支援依級別、課別、精熟狀態篩選，並可開啟「遮蔽中文」進行自我抽背。</p>
+
+      <div class="filter-toolbar" style="margin-top: var(--space-md);">
+        <div class="field-group">
+          <label class="field-label" for="vocab-search-input">搜尋單字或中文釋義</label>
+          <input type="text" id="vocab-search-input" class="field-input" placeholder="輸入英文單字或中文關鍵字…" oninput="renderVocabGrid()">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="vocab-level-select">大考詞彙級別</label>
+          <select id="vocab-level-select" class="field-select" onchange="renderVocabGrid()">
+            <option value="all">全部級別 (L4–L6)</option>
+            <option value="4">Level 4（中高級基礎）</option>
+            <option value="5">Level 5（學測高頻核心）</option>
+            <option value="6">Level 6（分科／頂標進階）</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="vocab-source-select">段考出處單元</label>
+          <select id="vocab-source-select" class="field-select" onchange="renderVocabGrid()">
+            <option value="all">全部段考來源</option>
+            <option value="ED">ED 10月號</option>
+            <option value="L03">L03 Formosa</option>
+            <option value="L04">L04 Lab-Grown Meat</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="vocab-status-select">學習標記狀態</label>
+          <select id="vocab-status-select" class="field-select" onchange="renderVocabGrid()">
+            <option value="all">全部狀態</option>
+            <option value="unmarked">尚未標記</option>
+            <option value="review">標記需加強</option>
+            <option value="mastered">已精熟</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-secondary" id="toggle-mask-btn" onclick="toggleMeaningMask()">
+          <i data-lucide="eye-off" width="16" height="16" aria-hidden="true"></i>
+          <span>遮蔽中文抽背</span>
+        </button>
+      </div>
+
+      <div class="vocab-stats-row">
+        <span id="vocab-filter-summary">顯示 32 個字彙</span>
+        <span>提示：點擊「已精熟」或「需加強」會自動儲存您的學習進度。</span>
+      </div>
+
+      <div class="vocab-grid" id="vocab-grid"></div>
+    </section>
+
+    <!-- SECTION 03: INTERACTIVE EXAM QUIZ -->
+    <section id="section-quiz" aria-labelledby="heading-quiz">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">SECTION 03</span>
+          <span class="dossier-meta">INTERACTIVE EXAM PRACTICE · 15 QUESTIONS</span>
+        </div>
+        <span class="dossier-meta">INITIAL ATTEMPT RECORDED</span>
+      </div>
+      <h2 class="section-heading" id="heading-quiz">段考實戰模擬測驗</h2>
+      <p class="section-sub">題目嚴格取材自 ED 10月號（克漏字與閱讀測驗）、L03 Formosa、L04 Lab-Grown Meat 及大考 Level 4–6 高階字彙應用。</p>
+
+      <div class="notice-bar" style="margin: var(--space-md) 0 var(--space-lg) 0;">
+        <i data-lucide="shield-check" width="18" height="18" style="flex-shrink:0; margin-top:2px;" aria-hidden="true"></i>
+        <div>
+          <strong>評量規則說明：</strong>每題的<strong>「初次作答結果」</strong>會立即鎖定並計入第 05 區<strong>「綜合性評估」</strong>；若答錯，該題將自動同步至第 04 區<strong>「錯題複習專區」</strong>供您無限次訂正練習，二次練習的成果不會回頭改寫綜合評估分數，以確保成績診斷的真實性。
+        </div>
+      </div>
+
+      <div class="quiz-shell">
+        <aside class="quiz-sidebar" aria-label="測驗題號與篩選">
+          <div class="field-group">
+            <label class="field-label" for="quiz-domain-filter">依單元篩選題目</label>
+            <select id="quiz-domain-filter" class="field-select" onchange="filterQuizQuestions()">
+              <option value="all">全部 15 題綜合模擬</option>
+              <option value="ED">ED 10月號（5 題）</option>
+              <option value="L03">L03 Formosa（3 題）</option>
+              <option value="L04">L04 Lab-Grown Meat（4 題）</option>
+              <option value="VOCAB">L4–L6 高階詞彙應用（3 題）</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label" style="margin-bottom: var(--space-xs);">題號導覽（點擊跳題）</div>
+            <div class="q-map-grid" id="quiz-nav-pips"></div>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--on-surface-variant); display: flex; flex-direction: column; gap: 4px;">
+            <span>● 綠底：初次作答正確</span>
+            <span>● 紅底：初次作答錯誤（已收錄至錯題區）</span>
+            <span>● 白底：尚未作答</span>
+          </div>
+          <button type="button" class="btn btn-secondary" id="reset-quiz-btn" onclick="handleResetQuiz(this)">
+            <i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i>
+            <span>重設全部正式測驗</span>
+          </button>
+        </aside>
+
+        <div class="quiz-main-card" id="quiz-main-card"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: MISTAKE REVIEW ZONE -->
+    <section id="section-mistakes" aria-labelledby="heading-mistakes">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">SECTION 04</span>
+          <span class="dossier-meta">MISTAKE REVIEW ZONE · SECONDARY DRILL</span>
+        </div>
+        <span class="dossier-meta" id="mistake-zone-badge">0 RECORDED MISTAKES</span>
+      </div>
+      <h2 class="section-heading" id="heading-mistakes">錯題複習專區</h2>
+      <p class="section-sub">集中檢討您在正式測驗中初次答錯的題目。您可以在每張錯題卡進行<strong>「二次練習」</strong>檢驗是否真正弄懂，同時保持綜合性評估分數的客觀獨立。</p>
+
+      <div class="filter-toolbar" style="margin-top: var(--space-md); grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));">
+        <div class="field-group">
+          <label class="field-label" for="mistake-filter-status">篩選訂正狀態</label>
+          <select id="mistake-filter-status" class="field-select" onchange="renderMistakesZone()">
+            <option value="all">顯示全部錯題</option>
+            <option value="pending">尚未訂正精熟</option>
+            <option value="mastered">二次練習已訂正</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="mistake-filter-domain">篩選單元類別</label>
+          <select id="mistake-filter-domain" class="field-select" onchange="renderMistakesZone()">
+            <option value="all">全部單元</option>
+            <option value="ED">ED 10月號</option>
+            <option value="L03">L03 Formosa</option>
+            <option value="L04">L04 Lab-Grown Meat</option>
+            <option value="VOCAB">L4–L6 高階詞彙</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="mistakes-container" class="mistake-list"></div>
+    </section>
+
+    <!-- SECTION 05: COMPREHENSIVE ASSESSMENT -->
+    <section id="section-assessment" aria-labelledby="heading-assessment">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">SECTION 05</span>
+          <span class="dossier-meta">COMPREHENSIVE ASSESSMENT · INITIAL ATTEMPTS ONLY</span>
+        </div>
+        <span class="dossier-meta">EXCLUDES SECONDARY MISTAKE DRILLS</span>
+      </div>
+      <h2 class="section-heading" id="heading-assessment">綜合性學習成效評估</h2>
+      <p class="section-sub">根據您在第 03 區正式測驗的<strong>初次作答表現</strong>即時計算各項學習指標，並自動生成考前弱點補強處方。</p>
+
+      <div class="notice-bar notice-bar--info" style="margin: var(--space-md) 0 var(--space-lg) 0;">
+        <i data-lucide="info" width="18" height="18" style="flex-shrink:0; margin-top:2px;" aria-hidden="true"></i>
+        <div id="assessment-isolation-banner">
+          <strong>成績隔離保證：</strong>本評估嚴格僅採計「正式測驗初次作答紀錄」，<strong>完全不納入</strong>第 04 區「錯題二次練習」的訂正成績。
+        </div>
+      </div>
+
+      <div id="assessment-empty" class="empty-state">
+        <strong>尚未產生綜合性評估報告</strong>
+        <p style="margin:0; color:var(--on-surface-variant);">完成第 03 區任一題正式測驗後，此處將即時呈現各單元得分率長條圖、能力分級與考前補強建議。</p>
+        <button type="button" class="btn btn-primary" onclick="scrollToSection('section-quiz')">前往開始第 03 區模擬測驗</button>
+      </div>
+
+      <div id="assessment-populated" class="assessment-grid" style="display:none;">
+        <div class="figure-card" style="display:flex; flex-direction:column; gap:var(--space-md);">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:var(--space-md); border-bottom:1px solid var(--outline-variant); padding-bottom:var(--space-md);">
+            <div style="display:flex; align-items:center; gap:var(--space-md);">
+              <div class="grade-badge" id="assessment-grade-badge">--</div>
+              <div>
+                <div class="dossier-meta">綜合評估等第（僅採計初次作答）</div>
+                <h3 class="article-title" id="assessment-title" style="margin-top:2px;">尚未評級</h3>
+                <div id="assessment-subtitle" style="font-size:0.85rem; color:var(--on-surface-variant);"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="assessment-domain-rows"></div>
+
+          <div class="aside-box" style="margin-top:auto;" id="assessment-advice-box"></div>
+        </div>
+
+        <div class="figure-card" style="display:flex; flex-direction:column; justify-content:space-between; gap:var(--space-md);">
+          <div>
+            <div class="dossier-meta">UNIT ACCURACY BREAKDOWN</div>
+            <h3 class="article-title" style="margin-top:2px;">各單元正式作答表現分佈（%）</h3>
+            <p style="margin:var(--space-xs) 0 0 0; font-size:0.85rem; color:var(--on-surface-variant);">長條高度僅反映正式測驗初次作答之正確率，不計入錯題重練。</p>
+          </div>
+          <div class="chart-box">
+            <canvas id="assessment-chart"></canvas>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm); border-top:1px solid var(--outline-variant); padding-top:var(--space-sm);">
+            <span class="dossier-meta">EXPORT DIAGNOSTIC DOSSIER</span>
+            <button type="button" class="btn btn-secondary" onclick="exportAssessmentReport()">
+              <i data-lucide="download" width="16" height="16" aria-hidden="true"></i>
+              <span>匯出診斷報告 (.txt)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>資料來源：《English Digest 實用空中美語》2026年10月號（Units 1–16）、高中英文課本 L03〈Formosa: One Name, Two Stories〉、L04〈Lab-Grown Meat: To Eat or Not to Eat〉、大考中心《高中英文參考詞彙表》（111學年度起適用）。</span>
+      <span>本工具僅於本機／筆記本工作區儲存您的複習狀態。</span>
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    // =========================================================================
+    // 1. VOCABULARY DATA (CEEC Level 4–6 mapped to ED Oct, L03, L04)
+    // =========================================================================
+    const VOCAB_DATA = [
+      {
+        word: `religious`,
+        pos: `adj.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `宗教的；虔誠的`,
+        colloc: `religious beliefs / hold a place in religious tradition`,
+        sentence: `It holds a place in religious tradition, sometimes described as a guardian spirit of the mountains.`
+      },
+      {
+        word: `spiritual`,
+        pos: `adj.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `精神的；心靈的（衍生：spirit, spirited）`,
+        colloc: `physical and spiritual worlds / spiritual comfort`,
+        sentence: `The Yeti is described as a creature capable of crossing between the physical and spiritual worlds.`
+      },
+      {
+        word: `analysis`,
+        pos: `n.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `分析（複數型 analyses）`,
+        colloc: `DNA analysis / carry out an analysis of`,
+        sentence: `DNA analysis of hair samples later confirmed that people had been spotting Himalayan brown bears all along.`
+      },
+      {
+        word: `confirm`,
+        pos: `v.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `證實；確認`,
+        colloc: `confirm a reservation / confirm that...`,
+        sentence: `Scientists confirmed that the hair samples actually belonged to Himalayan brown bears.`
+      },
+      {
+        word: `capacity`,
+        pos: `n.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · Cloze Options`,
+        meaning: `容量；能力`,
+        colloc: `seating capacity / at full capacity`,
+        sentence: `The spacious car has a seating capacity of nine people.`
+      },
+      {
+        word: `fierce`,
+        pos: `adj.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `兇猛的；激烈的（大考近五年字彙）`,
+        colloc: `a fierce giant / fierce competition`,
+        sentence: `Local beliefs recognize several types, ranging from a fierce fifteen-foot giant to a smaller red-furred being.`
+      },
+      {
+        word: `legend`,
+        pos: `n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `傳說；傳奇（人物）`,
+        colloc: `bring the legend to global attention / legend has it that...`,
+        sentence: `Western explorers brought the legend to global attention in the 20th century.`
+      },
+      {
+        word: `specimen`,
+        pos: `n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · Cloze Options`,
+        meaning: `標本；樣品`,
+        colloc: `classify specimens / lab specimen`,
+        sentence: `Cindy classified the specimens into five groups for her biology experiments.`
+      },
+      {
+        word: `cease`,
+        pos: `v.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · Cloze Options`,
+        meaning: `停止；終止`,
+        colloc: `cease working / cease to exist`,
+        sentence: `The employees ceased working because of the sudden power failure.`
+      },
+      {
+        word: `trigger`,
+        pos: `v. / n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `引發；觸發；扳機`,
+        colloc: `trigger a wave of expeditions / trigger public anger`,
+        sentence: `Western explorers brought the legend to global attention, triggering a wave of expeditions to the Himalayas.`
+      },
+      {
+        word: `expedition`,
+        pos: `n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · The Yeti`,
+        meaning: `遠征（隊）；探險（隊）`,
+        colloc: `a wave of expeditions / mount an expedition`,
+        sentence: `Interest in the Yeti triggered a wave of expeditions to the Himalayas.`
+      },
+      {
+        word: `shield`,
+        pos: `v. / n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 1 · Cloze Options`,
+        meaning: `保護；遮蔽；盾牌`,
+        colloc: `shield A from B`,
+        sentence: `The organization works to shield endangered animals from illegal hunting activities.`
+      },
+      {
+        word: `container`,
+        pos: `n.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Onkalo`,
+        meaning: `容器；貨櫃`,
+        colloc: `copper canisters / glass container`,
+        sentence: `Highly radioactive fuel rods will be sealed inside copper canisters, and these containers will be placed in tunnels.`
+      },
+      {
+        word: `expand`,
+        pos: `v.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Onkalo`,
+        meaning: `膨脹；擴展`,
+        colloc: `expand when wet / expand one's horizons`,
+        sentence: `The canisters are surrounded by bentonite clay, a material that expands when wet.`
+      },
+      {
+        word: `stability`,
+        pos: `n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Onkalo`,
+        meaning: `穩定；穩定性（形容詞 stable L3）`,
+        colloc: `chosen for its stability and low earthquake risk`,
+        sentence: `The surrounding bedrock, about 1.9 billion years old, was chosen for its stability and low earthquake risk.`
+      },
+      {
+        word: `isolate`,
+        pos: `v.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Kimchi Bacteria`,
+        meaning: `隔離；分離出`,
+        colloc: `be isolated from / feel isolated`,
+        sentence: `The study focused on a lactic acid bacterium isolated from kimchi.`
+      },
+      {
+        word: `particle`,
+        pos: `n.`,
+        level: 4,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Kimchi Bacteria`,
+        meaning: `微粒；顆粒`,
+        colloc: `plastic particles / tiny particles`,
+        sentence: `Researchers believe the bacterium may help carry plastic particles out of the gut before they accumulate.`
+      },
+      {
+        word: `preliminary`,
+        pos: `adj.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Kimchi Bacteria`,
+        meaning: `初步的；預備的`,
+        colloc: `preliminary findings / preliminary stage`,
+        sentence: `Still, scientists caution that the findings are preliminary and more human studies are needed.`
+      },
+      {
+        word: `contend`,
+        pos: `v.`,
+        level: 6,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Vocabulary`,
+        meaning: `競爭；主張；抗衡`,
+        colloc: `contend to become / contend with`,
+        sentence: `Three political leaders are contending to become the country's next president.`
+      },
+      {
+        word: `expend`,
+        pos: `v.`,
+        level: 6,
+        source: `ED`,
+        unitLabel: `ED Unit 2 · Vocabulary`,
+        meaning: `花費；消耗（能量、時間）`,
+        colloc: `expend all one's energy`,
+        sentence: `Having expended all their energy, the runners were glad to lie down and rest.`
+      },
+      {
+        word: `catastrophe`,
+        pos: `n.`,
+        level: 5,
+        source: `ED`,
+        unitLabel: `ED Unit 10 · Pompeii`,
+        meaning: `大災難；浩劫`,
+        colloc: `natural catastrophe / avert a catastrophe`,
+        sentence: `The eruption of Mount Vesuvius was a sudden catastrophe that buried the city of Pompeii.`
+      },
+      {
+        word: `cavity`,
+        pos: `n.`,
+        level: 6,
+        source: `ED`,
+        unitLabel: `ED Unit 10 · Pompeii`,
+        meaning: `洞；空穴；蛀牙`,
+        colloc: `body cavity / dental cavity`,
+        sentence: `Archaeologists poured plaster into each cavity beneath the volcanic ash to reveal victims' final shapes.`
+      },
+      {
+        word: `cling`,
+        pos: `v.`,
+        level: 6,
+        source: `ED`,
+        unitLabel: `ED Unit 10 · Pompeii`,
+        meaning: `抓緊；依附；緊貼`,
+        colloc: `cling to belongings / cling to hope`,
+        sentence: `Some residents tried to flee while clinging to their precious belongings.`
+      },
+      {
+        word: `differ`,
+        pos: `v.`,
+        level: 4,
+        source: `L03`,
+        unitLabel: `L03 · Formosa`,
+        meaning: `不同；有差異`,
+        colloc: `differ considerably / differ from`,
+        sentence: `Despite these things that they have in common, the two Formosas still differ in many ways.`
+      },
+      {
+        word: `species`,
+        pos: `n.`,
+        level: 4,
+        source: `L03`,
+        unitLabel: `L03 · Formosa`,
+        meaning: `物種（單複數同型）`,
+        colloc: `unique species / endangered species`,
+        sentence: `Taiwan's mountains, valleys, rivers, and reefs are home to hundreds of unique species.`
+      },
+      {
+        word: `statistics`,
+        pos: `n.`,
+        level: 5,
+        source: `L03`,
+        unitLabel: `L03 · Reading Strategy`,
+        meaning: `統計數字；統計學`,
+        colloc: `supporting details such as statistics and facts`,
+        sentence: `Supporting details can be definitions, explanations, statistics, facts, or real-life examples.`
+      },
+      {
+        word: `overlap`,
+        pos: `v. / n.`,
+        level: 6,
+        source: `L03`,
+        unitLabel: `L03 · Graphic Organizer`,
+        meaning: `重疊；部分一致`,
+        colloc: `overlapping circles in a Venn Diagram`,
+        sentence: `A Venn Diagram uses overlapping circles to show the relationships between two or more things.`
+      },
+      {
+        word: `primitive`,
+        pos: `adj.`,
+        level: 4,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `原始的；初級的`,
+        colloc: `primitive fibers / primitive societies`,
+        sentence: `Meat is created by taking animal stem cells, transforming them into primitive fibers, and combining them.`
+      },
+      {
+        word: `substantial`,
+        pos: `adj.`,
+        level: 5,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `實質的；可觀的；重大的`,
+        colloc: `substantial benefits / substantial gas emissions`,
+        sentence: `Supporters of lab-grown meat highlight several substantial benefits that traditional meat cannot offer.`
+      },
+      {
+        word: `livestock`,
+        pos: `n.`,
+        level: 6,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `家畜；牲畜（集合名詞，不可數）`,
+        colloc: `raising of livestock / take a heavy toll on`,
+        sentence: `The raising of livestock needed to fulfill the global demand for meat takes a heavy toll on the environment.`
+      },
+      {
+        word: `torment`,
+        pos: `n. / v.`,
+        level: 6,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `折磨；痛苦；使痛苦`,
+        colloc: `endure physical or mental torment`,
+        sentence: `The lab-grown beef patty on your plate didn't come from a cow that had to endure physical or mental torment.`
+      },
+      {
+        word: `infrastructure`,
+        pos: `n.`,
+        level: 6,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `基礎設施；基本結構`,
+        colloc: `maintain the infrastructure to grow cell cultures`,
+        sentence: `Maintaining the infrastructure to grow cell cultures requires significant quantities of energy.`
+      },
+      {
+        word: `induce`,
+        pos: `v.`,
+        level: 5,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `誘發；引起；勸說`,
+        colloc: `induce allergic reactions`,
+        sentence: `Genetically modified food is sometimes said to induce allergic reactions or cause more serious health problems.`
+      },
+      {
+        word: `allergic`,
+        pos: `adj.`,
+        level: 5,
+        source: `L04`,
+        unitLabel: `L04 · Lab-Grown Meat`,
+        meaning: `過敏的（名詞 allergy L5）`,
+        colloc: `be allergic to / allergic reactions`,
+        sentence: `Artificially produced food might trigger allergic reactions in some consumers.`
+      }
+    ];
+
+    // =========================================================================
+    // 2. QUIZ QUESTIONS (15 questions grounded in ED Oct, L03, L04, CEEC L4–L6)
+    // =========================================================================
+    const QUIZ_DATA = [
+      {
+        id: `q1`,
+        domain: `ED`,
+        domainName: `ED 10月號`,
+        skillTag: `克漏字語意判讀`,
+        unitRef: `ED Unit 1 · The Yeti`,
+        passage: `The term <em>metoh-kangmi</em>, a Himalayan phrase often interpreted as "man-bear snowman," was mistakenly translated as "abominable snowman," and the frightening ____ stuck.`,
+        stem: `根據 ED Unit 1 克漏字第 1 題，空格最適合填入下列哪一個字彙？`,
+        options: [
+          `specimen`,
+          `capacity`,
+          `label`,
+          `beast`
+        ],
+        answerIndex: 2,
+        explanation: `本句說明喜馬拉雅語 "metoh-kangmi" 被誤譯為「可憎的雪人」，這個令人畏懼的「名稱／標籤（label）」從此流傳下來。(A) specimen 標本、(B) capacity 容量／能力、(D) beast 野獸，皆不如 (C) label 貼切指涉前文的稱呼語詞。`,
+        vocabRefs: [`label (L4)`, `specimen (L5)`, `capacity (L4)`]
+      },
+      {
+        id: `q2`,
+        domain: `ED`,
+        domainName: `ED 10月號`,
+        skillTag: `文法結構與分詞構句`,
+        unitRef: `ED Unit 1 · The Yeti`,
+        passage: `Western explorers brought the legend to global attention in the 20th century, ____ a wave of expeditions to the Himalayas.`,
+        stem: `根據 ED Unit 1 克漏字第 4 題，空格最適合填入何者？`,
+        options: [
+          `investing`,
+          `shielding`,
+          `ceasing`,
+          `triggering`
+        ],
+        answerIndex: 3,
+        explanation: `探險家讓雪人傳說受到全球注目，因此「引發（triggering）」一波前往喜馬拉雅山的探險熱潮。(A) investing 投資、(B) shielding 保護、(C) ceasing 停止，語意均不符。`,
+        vocabRefs: [`trigger (L5)`, `expedition (L5)`, `cease (L5)`]
+      },
+      {
+        id: `q3`,
+        domain: `ED`,
+        domainName: `ED 10月號`,
+        skillTag: `科技新聞細節判讀`,
+        unitRef: `ED Unit 2 · News Watch (Onkalo)`,
+        passage: `Located on Olkiluoto Island, Finland's Onkalo repository extends more than 400 meters below the surface. Highly radioactive fuel rods will be sealed inside copper canisters surrounded by bentonite clay, which expands when wet. The surrounding bedrock, about 1.9 billion years old, was chosen for its stability and low earthquake risk.`,
+        stem: `Why was the bedrock around Onkalo chosen for Finland's nuclear waste repository?`,
+        options: [
+          `It is stable and has a low risk of earthquakes.`,
+          `It can expand quickly when it becomes wet.`,
+          `It is easy to dig through and move away.`,
+          `It can turn nuclear waste into safe materials.`
+        ],
+        answerIndex: 0,
+        explanation: `原文明確指出「about 1.9 billion years old, was chosen for its stability and low earthquake risk」，故選 (A)。選項 (B) 遇水膨脹的是膨潤土（bentonite clay），而非岩床（bedrock）。`,
+        vocabRefs: [`stability (L5)`, `expand (L4)`, `container (L4)`]
+      },
+      {
+        id: `q4`,
+        domain: `ED`,
+        domainName: `ED 10月號`,
+        skillTag: `科學實驗結果判讀`,
+        unitRef: `ED Unit 2 · News Watch (Kimchi Bacteria)`,
+        passage: `In laboratory tests, <em>Leuconostoc mesenteroides</em> CBA3656, a lactic acid bacterium isolated from kimchi, was able to bind to polystyrene nanoplastics. Mice given the kimchi-derived probiotic excreted more than twice as many nanoplastics in their feces as mice in the control group. Still, scientists caution that the findings are preliminary.`,
+        stem: `What did the animal experiments in the kimchi probiotic article show?`,
+        options: [
+          `Kimchi completely removed plastic from the mice's organs.`,
+          `The probiotic helped mice pass more nanoplastics in feces.`,
+          `The bacterium prevented all microplastics from entering food.`,
+          `Nanoplastics became larger after meeting the bacterium.`
+        ],
+        answerIndex: 1,
+        explanation: `實驗顯示餵食該辛奇益生菌的小鼠，在糞便中排出的奈米塑膠量為對照組的兩倍以上（excreted more than twice as many nanoplastics in their feces），故選 (B)。(A) 的「completely removed」與 (C) 的「all」皆過度武斷，且實驗屬初步發現（preliminary）。`,
+        vocabRefs: [`isolate (L5)`, `particle (L4)`, `preliminary (L5)`]
+      },
+      {
+        id: `q5`,
+        domain: `ED`,
+        domainName: `ED 10月號`,
+        skillTag: `篇章組織與架構分析`,
+        unitRef: `ED Unit 7 · News Digest (印度移工議題)`,
+        passage: `Unit 7 新聞文摘探討「引進印度移工：治標還是治本？」，全文先說明台灣引進移工之政策方向，接著分析少子化與勞動力短缺等成因，再回應社會大眾對治安與就業衝擊的疑慮，最後討論單靠移工政策在結構改善上的限制。`,
+        stem: `How is the Unit 7 News Digest passage mainly organized?`,
+        options: [
+          `By comparing labor markets, analyzing workforce demands, and evaluating regional competition.`,
+          `By presenting a policy, examining its causes, addressing public concerns, and discussing its limitations.`,
+          `By tracing policy developments, reviewing past reforms, and predicting future outcomes.`,
+          `By exploring cultural differences, describing workplace challenges, and proposing social solutions.`
+        ],
+        answerIndex: 1,
+        explanation: `ED Unit 7 閱讀測驗第 1 題核心考點即為段落結構（Organization）：先提出政策（presenting a policy）、剖析成因（examining its causes）、回應公眾疑慮（addressing public concerns），最後探討其侷限（discussing its limitations），故選 (B)。`,
+        vocabRefs: [`analysis (L4)`, `concern (L4)`]
+      },
+      {
+        id: `q6`,
+        domain: `L03`,
+        domainName: `L03 Formosa`,
+        skillTag: `比較與對比細節`,
+        unitRef: `L03 · Formosa: One Name, Two Stories`,
+        passage: `Interestingly, it appears that both Formosas were unintentionally reached by European explorers in the sixteenth century. Portuguese sailors came across Taiwan and named it "Ilha Formosa," while Spanish explorers gave the name Formosa to an area of land on the banks of the Paraguay River in Argentina.`,
+        stem: `What do Taiwan and Argentina's Formosa have in common according to Lesson 3?`,
+        options: [
+          `They are both islands surrounded by the ocean.`,
+          `They are both located at 23° N latitude.`,
+          `They were both named by Spanish explorers.`,
+          `They were both reached by Europeans in the sixteenth century.`
+        ],
+        answerIndex: 3,
+        explanation: `兩座 Formosa 皆在 16 世紀由歐洲探險家意外抵達並命名（Taiwan 由葡萄牙水手、Argentina Formosa 由西班牙探險家）。(A) 阿根廷 Formosa 位於內陸巴拉圭河畔；(B) 兩地分別位於 23° N 與 23° S；(C) 台灣是葡萄牙水手命名，非西班牙。`,
+        vocabRefs: [`differ (L4)`, `overlap (L6)`]
+      },
+      {
+        id: `q7`,
+        domain: `L03`,
+        domainName: `L03 Formosa`,
+        skillTag: `事實判讀（非正確敘述）`,
+        unitRef: `L03 · Formosa: One Name, Two Stories`,
+        passage: `Two thirds of Taiwan's 36,000 square kilometers are covered with densely forested majestic mountains, home to hundreds of unique species. By contrast, most of Argentina's Formosa, which is two times the size of Taiwan, is fairly flat and made up of trees, grassland, or marshland.`,
+        stem: `Which of the following statements is NOT true according to Lesson 3?`,
+        options: [
+          `Taiwan is home to hundreds of unique species.`,
+          `Argentina's Formosa is two times bigger than Taiwan.`,
+          `Argentina's Formosa relies greatly on information technology.`,
+          `It was Portuguese sailors that first gave Taiwan the name "Formosa."`
+        ],
+        answerIndex: 2,
+        explanation: `課文第 5 段比較兩地經濟時指出，是「台灣」高度倚賴資訊科技（IT）與高科技產業，而非阿根廷的 Formosa（以農牧、林木等為主），因此 (C) 敘述錯誤，為本題正解。`,
+        vocabRefs: [`species (L4)`, `differ (L4)`]
+      },
+      {
+        id: `q8`,
+        domain: `L03`,
+        domainName: `L03 Formosa`,
+        skillTag: `閱讀策略：Supporting Details`,
+        unitRef: `L03 · Reading Strategy`,
+        passage: `Supporting details follow a topic sentence to provide readers with more information—such as definitions, explanations, statistics, facts, or real-life examples—to prove the credibility of an abstract idea.`,
+        stem: `In Paragraph 4 of Lesson 3 (comparing Taiwan's mountains and valleys with Argentina's flat marshland), what do the supporting details primarily illustrate?`,
+        options: [
+          `Man-made phenomena in major cities of both places.`,
+          `The different natural landscapes of the two Formosas.`,
+          `Only the shared historical timelines of European explorers.`,
+          `Weather forecasts for coastal tourism.`
+        ],
+        answerIndex: 1,
+        explanation: `L03 閱讀策略〈Identifying Supporting Details〉指出第 4 段主題句提出兩地雖然有共同點但仍截然不同，接續的細節（台灣 2/3 山地與特有種 vs. 阿根廷多平原、草原與沼澤）主要在說明兩地「不同的自然景觀（different natural landscapes）」，故選 (B)。`,
+        vocabRefs: [`statistics (L5)`, `species (L4)`]
+      },
+      {
+        id: `q9`,
+        domain: `L04`,
+        domainName: `L04 Lab-Grown Meat`,
+        skillTag: `文章主旨大意`,
+        unitRef: `L04 · Lab-Grown Meat: To Eat or Not to Eat`,
+        passage: `As lab-grown meat technology moves toward mainstream adoption, it is important to understand both the promises and the problems with this emerging food source.`,
+        stem: `What is the passage "Lab-Grown Meat: To Eat or Not to Eat" mainly about?`,
+        options: [
+          `Ways to find food-tech start-ups to invest in.`,
+          `A rapidly declining traditional farming method.`,
+          `The pros and cons of lab-grown meat.`,
+          `The guaranteed cure for all food allergies.`
+        ],
+        answerIndex: 2,
+        explanation: `標題〈To Eat or Not to Eat〉與首段末句 "understand both the promises and the problems" 皆明確點出本文主旨在於探討實驗室培植肉的優缺點（pros and cons），故選 (C)。`,
+        vocabRefs: [`substantial (L5)`, `primitive (L4)`]
+      },
+      {
+        id: `q10`,
+        domain: `L04`,
+        domainName: `L04 Lab-Grown Meat`,
+        skillTag: `細節排除（非優點項目）`,
+        unitRef: `L04 · Lab-Grown Meat`,
+        passage: `Growing meat in a laboratory eliminates the need for slaughterhouses and unethical treatment of animals. Switching to lab-grown meat could lower greenhouse gas emissions by up to 96%. Scientists can also make it healthier by adding vitamins and minerals.`,
+        stem: `Which of the following is NOT mentioned as an advantage of producing meat in a laboratory?`,
+        options: [
+          `It makes meat production more sustainable.`,
+          `It would lower the number of slaughterhouses.`,
+          `It eliminates the cruel treatment of farm animals.`,
+          `It genetically modifies meat to boost farm livestock output.`
+        ],
+        answerIndex: 3,
+        explanation: `課文提到的三大優點為：(1) 減少屠宰場與動物身心折磨、(2) 降低高達 96% 溫室氣體以提升永續性、(3) 可人工添加維生素與礦物質。而「genetically modified」是在反面疑慮段落中作為可能誘發過敏風險的類比，且培植肉不需增加傳統畜牧業（livestock）產量，故 (D) 非其優點。`,
+        vocabRefs: [`livestock (L6)`, `torment (L6)`]
+      },
+      {
+        id: `q11`,
+        domain: `L04`,
+        domainName: `L04 Lab-Grown Meat`,
+        skillTag: `因果關係推論`,
+        unitRef: `L04 · Lab-Grown Meat`,
+        passage: `While advocates for lab-grown meat say it can help fight climate change, some research suggests that maintaining the infrastructure to grow cell cultures requires significant quantities of energy and leads to substantial gas emissions.`,
+        stem: `Why does the lab-grown meat production process still require great quantities of energy?`,
+        options: [
+          `To raise more cattle on traditional farms.`,
+          `To keep animals' best interests at heart.`,
+          `To maintain its infrastructure to grow cell cultures.`,
+          `To transport frozen patties across oceans.`
+        ],
+        answerIndex: 2,
+        explanation: `原文明確指出「maintaining the infrastructure to grow cell cultures requires significant quantities of energy」，即為了維持培養動物細胞所需的基礎設施（infrastructure），故選 (C)。`,
+        vocabRefs: [`infrastructure (L6)`, `substantial (L5)`]
+      },
+      {
+        id: `q12`,
+        domain: `L04`,
+        domainName: `L04 Lab-Grown Meat`,
+        skillTag: `作者語氣與態度`,
+        unitRef: `L04 · Lab-Grown Meat`,
+        passage: `The author presents substantial environmental and ethical promises of lab-grown meat alongside long-term energy concerns, potential allergic reactions, and taste limitations before concluding.`,
+        stem: `Which adjective best describes the author's attitude toward the future of lab-grown meat?`,
+        options: [
+          `Cautious.`,
+          `Indifferent.`,
+          `Overjoyed.`,
+          `Completely hostile.`
+        ],
+        answerIndex: 0,
+        explanation: `作者客觀並陳支持方（減少排放、人道、可加維生素）與反對方疑慮（高耗能設施、基改類似健康疑慮與過敏風險、風味問題），並未一面倒讚揚或否定，屬於「審慎的（Cautious）」。`,
+        vocabRefs: [`induce (L5)`, `allergic (L5)`]
+      },
+      {
+        id: `q13`,
+        domain: `VOCAB`,
+        domainName: `L4–L6 高階詞彙`,
+        skillTag: `CEEC Level 5–6 語境選詞`,
+        unitRef: `大考參考詞彙表 Level 6`,
+        passage: `In Lesson 4, consumers can rest assured that a lab-grown beef patty did not come from a cow forced to endure physical or mental ____ inside crowded factory farms.`,
+        stem: `選出最適合填入句中的《高中英文參考詞彙表》第 6 級單字：`,
+        options: [
+          `torment`,
+          `statistics`,
+          `specimen`,
+          `stability`
+        ],
+        answerIndex: 0,
+        explanation: `endure physical or mental torment 意為「忍受身心折磨」，與 L04 原文完全一致。(A) torment（Level 6，折磨）；(B) statistics（Level 5，統計數字）；(C) specimen（Level 5，標本）；(D) stability（Level 5，穩定性）。`,
+        vocabRefs: [`torment (L6)`, `statistics (L5)`, `specimen (L5)`]
+      },
+      {
+        id: `q14`,
+        domain: `VOCAB`,
+        domainName: `L4–L6 高階詞彙`,
+        skillTag: `CEEC Level 5 語境選詞`,
+        unitRef: `大考參考詞彙表 Level 5`,
+        passage: `Although the animal study showed that kimchi probiotics doubled nanoplastic excretion, researchers emphasized that these results are only ____ and require human clinical trials.`,
+        stem: `選出最適合填入句中的《高中英文參考詞彙表》第 5 級單字：`,
+        options: [
+          `fierce`,
+          `preliminary`,
+          `allergic`,
+          `religious`
+        ],
+        answerIndex: 1,
+        explanation: `句意強調實驗結果仍屬「初步階段（preliminary）」，仍須更多人體臨床試驗。(A) fierce 兇猛的（L5）；(C) allergic 過敏的（L5）；(D) religious 宗教的（L4）。`,
+        vocabRefs: [`preliminary (L5)`, `fierce (L5)`, `allergic (L5)`]
+      },
+      {
+        id: `q15`,
+        domain: `VOCAB`,
+        domainName: `L4–L6 高階詞彙`,
+        skillTag: `CEEC Level 5–6 語境選詞`,
+        unitRef: `大考參考詞彙表 Level 5–6`,
+        passage: `Three major environmental groups are ____ for public funding to upgrade the city's clean-energy ____ before the upcoming climate summit.`,
+        stem: `依序選出最適合填入兩處空格的 Level 6 高階詞彙組合：`,
+        options: [
+          `ceasing / species`,
+          `contending / infrastructure`,
+          `isolating / cavity`,
+          `confirming / torment`
+        ],
+        answerIndex: 1,
+        explanation: `contend for（Level 6，角逐／競爭）搭配 public funding（爭取公共資金），以及 upgrade the city's clean-energy infrastructure（Level 6，基礎設施）語意最為精準自然。`,
+        vocabRefs: [`contend (L6)`, `infrastructure (L6)`]
+      }
+    ];
+
+    // =========================================================================
+    // 3. APPLICATION STATE (persisted via window.notebookAppApi)
+    // =========================================================================
+    let appState = {
+      vocabStatus: {},       // { [word]: 'mastered' | 'review' }
+      quizAnswers: {},       // LOCKED initial attempts: { [qId]: { choiceIndex, isCorrect } }
+      mistakePractice: {},   // Secondary practice in Mistake Zone ONLY: { [qId]: { lastChoiceIndex, mastered, attempts } }
+      currentQuizIdx: 0,
+      quizDomainFilter: `all`,
+      maskMeaning: false
+    };
+
+    let filteredQuizIds = QUIZ_DATA.map(function (q) { return q.id; });
+    let assessmentChart = null;
+
+    // =========================================================================
+    // 4. INITIALIZATION & STATE PERSISTENCE
+    // =========================================================================
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            appState = {
+              vocabStatus: saved.vocabStatus || {},
+              quizAnswers: saved.quizAnswers || {},
+              mistakePractice: saved.mistakePractice || {},
+              currentQuizIdx: typeof saved.currentQuizIdx === 'number' ? saved.currentQuizIdx : 0,
+              quizDomainFilter: saved.quizDomainFilter || `all`,
+              maskMeaning: Boolean(saved.maskMeaning)
+            };
+          }
+        }
+      } catch (err) {
+        updateSyncLabel(`OFFLINE MODE`);
+      }
+
+      const filterSelect = document.getElementById('quiz-domain-filter');
+      if (filterSelect) {
+        filterSelect.value = appState.quizDomainFilter;
+      }
+      applyQuizFilterList();
+      updateMaskButtonUI();
+      renderAll();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    async function persistState() {
+      updateSyncLabel(`SAVING…`);
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+          await window.notebookAppApi.setAppState(appState);
+        }
+        updateSyncLabel(`PROGRESS SYNCED`);
+      } catch (err) {
+        updateSyncLabel(`LOCAL SESSION`);
+      }
+    }
+
+    function updateSyncLabel(text) {
+      const el = document.getElementById('sync-status-label');
+      if (el) el.textContent = text;
+    }
+
+    function renderAll() {
+      updateTopKPIs();
+      renderVocabGrid();
+      renderQuizSection();
+      renderMistakesZone();
+      renderAssessmentSection();
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    // =========================================================================
+    // 5. NAVIGATION & SECTION 01 NOTES INTERACTIONS
+    // =========================================================================
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function switchNotesTab(tabName) {
+      const tabs = [`ed`, `l03`, `l04`, `grammar`];
+      tabs.forEach(function (t) {
+        const btn = document.getElementById(`tab-notes-${t}`);
+        const panel = document.getElementById(`notes-panel-${t}`);
+        if (btn) btn.classList.toggle('is-active', t === tabName);
+        if (panel) panel.style.display = t === tabName ? (t === `ed` || t === `grammar` ? `grid` : `block`) : `none`;
+      });
+    }
+
+    function filterVenn(mode) {
+      const tw = document.getElementById('venn-col-tw');
+      const shared = document.getElementById('venn-col-shared');
+      const ar = document.getElementById('venn-col-ar');
+      const btns = {
+        all: document.getElementById('venn-btn-all'),
+        shared: document.getElementById('venn-btn-shared'),
+        diff: document.getElementById('venn-btn-diff')
+      };
+      Object.keys(btns).forEach(function (k) {
+        if (btns[k]) btns[k].classList.toggle('is-active', k === mode);
+      });
+      if (!tw || !shared || !ar) return;
+      tw.classList.remove('is-dimmed');
+      shared.classList.remove('is-dimmed');
+      ar.classList.remove('is-dimmed');
+      if (mode === `shared`) {
+        tw.classList.add('is-dimmed');
+        ar.classList.add('is-dimmed');
+      } else if (mode === `diff`) {
+        shared.classList.add('is-dimmed');
+      }
+    }
+
+    // =========================================================================
+    // 6. SECTION 02: CEEC LEVEL 4-6 VOCABULARY EXPLORER
+    // =========================================================================
+    function toggleMeaningMask() {
+      appState.maskMeaning = !appState.maskMeaning;
+      updateMaskButtonUI();
+      renderVocabGrid();
+      persistState();
+    }
+
+    function updateMaskButtonUI() {
+      const btn = document.getElementById('toggle-mask-btn');
+      if (!btn) return;
+      btn.innerHTML = appState.maskMeaning
+        ? `<i data-lucide="eye" width="16" height="16" aria-hidden="true"></i><span>顯示全部中文</span>`
+        : `<i data-lucide="eye-off" width="16" height="16" aria-hidden="true"></i><span>遮蔽中文抽背</span>`;
+    }
+
+    function revealSingleMeaning(el) {
+      if (el && el.classList.contains('is-masked')) {
+        el.classList.remove('is-masked');
+      }
+    }
+
+    function setVocabStatus(word, status) {
+      if (appState.vocabStatus[word] === status) {
+        delete appState.vocabStatus[word];
+      } else {
+        appState.vocabStatus[word] = status;
+      }
+      updateTopKPIs();
+      renderVocabGrid();
+      renderAssessmentSection();
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+      persistState();
+    }
+
+    function renderVocabGrid() {
+      const grid = document.getElementById('vocab-grid');
+      const summary = document.getElementById('vocab-filter-summary');
+      const searchEl = document.getElementById('vocab-search-input');
+      const levelEl = document.getElementById('vocab-level-select');
+      const sourceEl = document.getElementById('vocab-source-select');
+      const statusEl = document.getElementById('vocab-status-select');
+      if (!grid) return;
+
+      const query = searchEl ? searchEl.value.trim().toLowerCase() : ``;
+      const levelVal = levelEl ? levelEl.value : `all`;
+      const sourceVal = sourceEl ? sourceEl.value : `all`;
+      const statusVal = statusEl ? statusEl.value : `all`;
+
+      const filtered = VOCAB_DATA.filter(function (item) {
+        if (levelVal !== `all` && String(item.level) !== levelVal) return false;
+        if (sourceVal !== `all` && item.source !== sourceVal) return false;
+        const st = appState.vocabStatus[item.word] || `unmarked`;
+        if (statusVal !== `all` && st !== statusVal) return false;
+        if (query) {
+          const hay = `${item.word} ${item.meaning} ${item.colloc} ${item.unitLabel}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+        return true;
+      });
+
+      const badge = document.getElementById('vocab-count-badge');
+      if (badge) badge.textContent = `${VOCAB_DATA.length} HIGH-LEVEL WORDS`;
+      if (summary) {
+        summary.textContent = `顯示 ${filtered.length} / ${VOCAB_DATA.length} 個 Level 4–6 高階詞彙`;
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1;">
+            <strong>找不到符合條件的單字</strong>
+            <p style="margin:0; color:var(--on-surface-variant);">請嘗試調整大考詞彙級別、單元或清除搜尋關鍵字。</p>
+            <button type="button" class="btn btn-secondary" onclick="resetVocabFilters()">重設篩選條件</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(function (item) {
+        const status = appState.vocabStatus[item.word] || ``;
+        const cardStateClass = status === `mastered` ? `is-mastered` : (status === `review` ? `is-review` : ``);
+        const levelClass = item.level === 4 ? `ceec-l4` : (item.level === 5 ? `ceec-l5` : `ceec-l6`);
+        const maskClass = appState.maskMeaning ? `is-masked` : ``;
+        const safeWord = item.word.replace(/'/g, ``);
+
+        return `
+          <article class="vocab-card ${cardStateClass}">
+            <div>
+              <div class="vocab-top">
+                <div>
+                  <div class="vocab-word">${item.word}</div>
+                  <div class="vocab-pos">${item.pos} · ${item.unitLabel}</div>
+                </div>
+                <span class="ceec-badge ${levelClass}">CEEC Level ${item.level}</span>
+              </div>
+              <div class="vocab-meaning ${maskClass}" style="margin-top: var(--space-sm);" onclick="revealSingleMeaning(this)" title="點擊顯示或查看中文">${item.meaning}</div>
+              <div class="vocab-colloc" style="margin-top: var(--space-xs);">搭配用法：${item.colloc}</div>
+              <p class="vocab-sentence" style="margin-top: var(--space-xs);">${item.sentence}</p>
+            </div>
+            <div class="vocab-actions">
+              <span class="dossier-meta">${item.source}</span>
+              <div class="vocab-action-btns">
+                <button type="button" class="mini-btn ${status === `review` ? `active-review` : ``}" onclick="setVocabStatus('${safeWord}', 'review')">
+                  <i data-lucide="bookmark" width="14" height="14" aria-hidden="true"></i>
+                  <span>需加強</span>
+                </button>
+                <button type="button" class="mini-btn ${status === `mastered` ? `active-mastered` : ``}" onclick="setVocabStatus('${safeWord}', 'mastered')">
+                  <i data-lucide="check" width="14" height="14" aria-hidden="true"></i>
+                  <span>已精熟</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join(``);
+    }
+
+    function resetVocabFilters() {
+      const searchEl = document.getElementById('vocab-search-input');
+      const levelEl = document.getElementById('vocab-level-select');
+      const sourceEl = document.getElementById('vocab-source-select');
+      const statusEl = document.getElementById('vocab-status-select');
+      if (searchEl) searchEl.value = ``;
+      if (levelEl) levelEl.value = `all`;
+      if (sourceEl) sourceEl.value = `all`;
+      if (statusEl) statusEl.value = `all`;
+      renderVocabGrid();
+    }
+
+    // =========================================================================
+    // 7. SECTION 03: INTERACTIVE EXAM QUIZ ENGINE
+    // =========================================================================
+    function applyQuizFilterList() {
+      const filter = appState.quizDomainFilter || `all`;
+      filteredQuizIds = QUIZ_DATA
+        .filter(function (q) { return filter === `all` || q.domain === filter; })
+        .map(function (q) { return q.id; });
+      if (appState.currentQuizIdx >= filteredQuizIds.length) {
+        appState.currentQuizIdx = 0;
+      }
+    }
+
+    function filterQuizQuestions() {
+      const sel = document.getElementById('quiz-domain-filter');
+      appState.quizDomainFilter = sel ? sel.value : `all`;
+      appState.currentQuizIdx = 0;
+      applyQuizFilterList();
+      renderQuizSection();
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+      persistState();
+    }
+
+    function jumpToQuizIndex(idx) {
+      if (idx >= 0 && idx < filteredQuizIds.length) {
+        appState.currentQuizIdx = idx;
+        renderQuizSection();
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+        persistState();
+      }
+    }
+
+    function submitQuizAnswer(qId, choiceIdx) {
+      // Lock initial answer: never overwrite an already answered official attempt
+      if (appState.quizAnswers[qId]) return;
+      const q = QUIZ_DATA.find(function (item) { return item.id === qId; });
+      if (!q) return;
+
+      const isCorrect = choiceIdx === q.answerIndex;
+      appState.quizAnswers[qId] = {
+        choiceIndex: choiceIdx,
+        isCorrect: isCorrect
+      };
+
+      renderAll();
+      persistState();
+    }
+
+    function renderQuizSection() {
+      const pipsEl = document.getElementById('quiz-nav-pips');
+      const cardEl = document.getElementById('quiz-main-card');
+      if (!pipsEl || !cardEl) return;
+
+      if (filteredQuizIds.length === 0) {
+        pipsEl.innerHTML = ``;
+        cardEl.innerHTML = `<div class="empty-state"><strong>目前篩選無題目</strong></div>`;
+        return;
+      }
+
+      pipsEl.innerHTML = filteredQuizIds.map(function (qId, idx) {
+        const rec = appState.quizAnswers[qId];
+        const classes = [`q-pip`];
+        if (idx === appState.currentQuizIdx) classes.push(`is-current`);
+        if (rec) classes.push(rec.isCorrect ? `is-correct` : `is-wrong`);
+        const globalNum = QUIZ_DATA.findIndex(function (q) { return q.id === qId; }) + 1;
+        return `<button type="button" class="${classes.join(` `)}" onclick="jumpToQuizIndex(${idx})" aria-label="跳至第 ${globalNum} 題">${globalNum}</button>`;
+      }).join(``);
+
+      const currentQId = filteredQuizIds[appState.currentQuizIdx];
+      const q = QUIZ_DATA.find(function (item) { return item.id === currentQId; });
+      if (!q) return;
+
+      const globalNum = QUIZ_DATA.findIndex(function (item) { return item.id === currentQId; }) + 1;
+      const rec = appState.quizAnswers[q.id];
+      const letters = [`A`, `B`, `C`, `D`];
+
+      const optionsHtml = q.options.map(function (optText, idx) {
+        const classes = [`option-btn`];
+        if (rec) {
+          if (idx === q.answerIndex) {
+            classes.push(`is-correct`);
+          } else if (idx === rec.choiceIndex && !rec.isCorrect) {
+            classes.push(`is-wrong`);
+          }
+        }
+        const disabledAttr = rec ? `disabled` : ``;
+        return `
+          <button type="button" class="${classes.join(` `)}" ${disabledAttr} onclick="submitQuizAnswer('${q.id}', ${idx})">
+            <span class="option-letter">(${letters[idx]})</span>
+            <span>${optText}</span>
+          </button>
+        `;
+      }).join(``);
+
+      let feedbackHtml = ``;
+      if (rec) {
+        const statusTitle = rec.isCorrect
+          ? `作答正確！已計入綜合性評估。`
+          : `初次作答錯誤（您選了 ${letters[rec.choiceIndex]}，正確答案為 ${letters[q.answerIndex]}）。已自動收入「錯題複習專區」供後續訂正練習。`;
+        const vocabChips = q.vocabRefs.map(function (v) {
+          return `<span class="highlight-chip">${v}</span>`;
+        }).join(` `);
+
+        feedbackHtml = `
+          <div class="explanation-box ${rec.isCorrect ? `is-correct` : `is-wrong`}">
+            <div style="font-weight: 700; margin-bottom: var(--space-xs);">${statusTitle}</div>
+            <p style="margin: 0 0 var(--space-xs) 0;">${q.explanation}</p>
+            <div style="display:flex; flex-wrap:wrap; align-items:center; gap: var(--space-xs);">
+              <span class="dossier-meta">關聯大考字彙：</span>${vocabChips}
+            </div>
+          </div>
+        `;
+      }
+
+      const prevDisabled = appState.currentQuizIdx === 0 ? `disabled` : ``;
+      const nextDisabled = appState.currentQuizIdx === filteredQuizIds.length - 1 ? `disabled` : ``;
+
+      cardEl.innerHTML = `
+        <div class="article-card-head">
+          <div style="display:flex; flex-wrap:wrap; gap: var(--space-xs); align-items:center;">
+            <span class="unit-tag">${q.domainName}</span>
+            <span class="unit-tag unit-tag--blue">${q.skillTag}</span>
+          </div>
+          <span class="dossier-meta">Q${String(globalNum).padStart(2, `0`)} / ${QUIZ_DATA.length} · ${q.unitRef}</span>
+        </div>
+        <div class="passage-excerpt">${q.passage}</div>
+        <p class="question-stem">${globalNum}. ${q.stem}</p>
+        <div class="options-list">${optionsHtml}</div>
+        ${feedbackHtml}
+        <div class="quiz-footer">
+          <div style="display:flex; gap: var(--space-sm);">
+            <button type="button" class="btn btn-secondary" ${prevDisabled} onclick="jumpToQuizIndex(${appState.currentQuizIdx - 1})">
+              <i data-lucide="arrow-left" width="16" height="16" aria-hidden="true"></i>
+              <span>上一題</span>
+            </button>
+            <button type="button" class="btn btn-primary" ${nextDisabled} onclick="jumpToQuizIndex(${appState.currentQuizIdx + 1})">
+              <span>下一題</span>
+              <i data-lucide="arrow-right" width="16" height="16" aria-hidden="true"></i>
+            </button>
+          </div>
+          <button type="button" class="btn btn-accent" onclick="scrollToSection('section-assessment')">
+            <span>檢視綜合性評估</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function handleResetQuiz(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-danger');
+        btn.innerHTML = `<i data-lucide="alert-triangle" width="16" height="16" aria-hidden="true"></i><span>再次點擊確認清空作答</span>`;
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          window.lucide.createIcons();
+        }
+        setTimeout(function () {
+          if (btn && btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.classList.remove('btn-danger');
+            btn.classList.add('btn-secondary');
+            btn.innerHTML = `<i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i><span>重設全部正式測驗</span>`;
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+              window.lucide.createIcons();
+            }
+          }
+        }, 4000);
+        return;
+      }
+
+      btn.dataset.armed = `false`;
+      btn.classList.remove('btn-danger');
+      btn.classList.add('btn-secondary');
+      btn.innerHTML = `<i data-lucide="rotate-ccw" width="16" height="16" aria-hidden="true"></i><span>重設全部正式測驗</span>`;
+      appState.quizAnswers = {};
+      appState.mistakePractice = {};
+      appState.currentQuizIdx = 0;
+      renderAll();
+      persistState();
+    }
+
+    // =========================================================================
+    // 8. SECTION 04: MISTAKE REVIEW ZONE (SECONDARY PRACTICE ISOLATED)
+    // =========================================================================
+    function getWrongQuestionIds() {
+      return QUIZ_DATA
+        .filter(function (q) {
+          const rec = appState.quizAnswers[q.id];
+          return rec && !rec.isCorrect;
+        })
+        .map(function (q) { return q.id; });
+    }
+
+    function practiceMistakeOption(qId, choiceIdx) {
+      const q = QUIZ_DATA.find(function (item) { return item.id === qId; });
+      if (!q) return;
+      const prev = appState.mistakePractice[qId] || { attempts: 0, mastered: false };
+      const isRight = choiceIdx === q.answerIndex;
+      appState.mistakePractice[qId] = {
+        lastChoiceIndex: choiceIdx,
+        mastered: isRight ? true : prev.mastered,
+        attempts: prev.attempts + 1
+      };
+      // Note: NEVER modifies appState.quizAnswers — Assessment remains strictly isolated!
+      renderAll();
+      persistState();
+    }
+
+    function renderMistakesZone() {
+      const container = document.getElementById('mistakes-container');
+      const badge = document.getElementById('mistake-zone-badge');
+      const statusSel = document.getElementById('mistake-filter-status');
+      const domainSel = document.getElementById('mistake-filter-domain');
+      if (!container) return;
+
+      const wrongIds = getWrongQuestionIds();
+      const totalAnswered = Object.keys(appState.quizAnswers).length;
+      if (badge) badge.textContent = `${wrongIds.length} RECORDED MISTAKES`;
+
+      if (totalAnswered === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <strong>錯題複習專區目前為空</strong>
+            <p style="margin:0; color:var(--on-surface-variant);">您尚未開始作答第 03 區的模擬測驗。答錯的題目會自動記錄於此，方便考前針對性二次練習。</p>
+            <button type="button" class="btn btn-primary" onclick="scrollToSection('section-quiz')">前往開始模擬測驗</button>
+          </div>
+        `;
+        return;
+      }
+
+      if (wrongIds.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <strong>目前零錯題！表現極佳</strong>
+            <p style="margin:0; color:var(--on-surface-variant);">您已完成 ${totalAnswered} 題正式測驗且全數一次答對，暫無需訂正的題目。</p>
+          </div>
+        `;
+        return;
+      }
+
+      const statusFilter = statusSel ? statusSel.value : `all`;
+      const domainFilter = domainSel ? domainSel.value : `all`;
+      const letters = [`A`, `B`, `C`, `D`];
+
+      const filtered = wrongIds.filter(function (qId) {
+        const q = QUIZ_DATA.find(function (item) { return item.id === qId; });
+        if (!q) return false;
+        if (domainFilter !== `all` && q.domain !== domainFilter) return false;
+        const prac = appState.mistakePractice[qId];
+        const isMastered = Boolean(prac && prac.mastered);
+        if (statusFilter === `pending` && isMastered) return false;
+        if (statusFilter === `mastered` && !isMastered) return false;
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <strong>目前篩選條件下沒有錯題</strong>
+            <p style="margin:0; color:var(--on-surface-variant);">切換上方「訂正狀態」或「單元類別」即可檢視其他錯題。</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(function (qId) {
+        const qIndex = QUIZ_DATA.findIndex(function (item) { return item.id === qId; });
+        const q = QUIZ_DATA[qIndex];
+        const initRec = appState.quizAnswers[qId];
+        const prac = appState.mistakePractice[qId];
+        const isMastered = Boolean(prac && prac.mastered);
+
+        const practiceBtns = q.options.map(function (optText, idx) {
+          const classes = [`option-btn`];
+          if (prac && prac.lastChoiceIndex === idx) {
+            classes.push(idx === q.answerIndex ? `is-correct` : `is-wrong`);
+          }
+          return `
+            <button type="button" class="${classes.join(` `)}" onclick="practiceMistakeOption('${q.id}', ${idx})">
+              <span class="option-letter">(${letters[idx]})</span>
+              <span>${optText}</span>
+            </button>
+          `;
+        }).join(``);
+
+        const pracFeedback = prac
+          ? (prac.lastChoiceIndex === q.answerIndex
+              ? `<div style="margin-top:var(--space-xs); color:var(--positive); font-weight:700; font-size:0.875rem;">✓ 二次練習答對！（累積練習 ${prac.attempts} 次・已標記為完成訂正，此練習不計入綜合評估分數）</div>`
+              : `<div style="margin-top:var(--space-xs); color:var(--error); font-weight:700; font-size:0.875rem;">✕ 這次選了 (${letters[prac.lastChoiceIndex]})，請再對照下方解析再試一次！</div>`)
+          : `<div style="margin-top:var(--space-xs); color:var(--on-surface-variant); font-size:0.82rem;">點擊上方選項進行二次練習（僅供複習確認，不改變綜合性評估成績）。</div>`;
+
+        return `
+          <article class="mistake-card ${isMastered ? `is-repracticed-ok` : ``}">
+            <div class="mistake-meta">
+              <div style="display:flex; flex-wrap:wrap; gap:var(--space-xs); align-items:center;">
+                <span class="unit-tag">Q${String(qIndex + 1).padStart(2, `0`)} · ${q.domainName}</span>
+                <span class="unit-tag unit-tag--blue">${q.skillTag}</span>
+                ${isMastered
+                  ? `<span class="unit-tag unit-tag--green">二次練習已訂正</span>`
+                  : `<span class="unit-tag" style="background:var(--error-soft); color:var(--error);">待訂正複習</span>`}
+              </div>
+              <span class="dossier-meta">初次誤選 (${letters[initRec.choiceIndex]}) · 正解 (${letters[q.answerIndex]})</span>
+            </div>
+
+            <div class="passage-excerpt">${q.passage}</div>
+            <p class="question-stem">${qIndex + 1}. ${q.stem}</p>
+
+            <div class="repractice-panel">
+              <div class="field-label" style="margin-bottom:var(--space-xs);">錯題二次練習（Re-practice Drill）</div>
+              <div class="options-list">${practiceBtns}</div>
+              ${pracFeedback}
+            </div>
+
+            <div class="explanation-box" style="margin-top:var(--space-xs);">
+              <strong>考點解析：</strong>${q.explanation}
+            </div>
+          </article>
+        `;
+      }).join(``);
+    }
+
+    // =========================================================================
+    // 9. SECTION 05: COMPREHENSIVE ASSESSMENT (INITIAL ATTEMPTS ONLY)
+    // =========================================================================
+    function updateTopKPIs() {
+      const masteredCount = Object.keys(appState.vocabStatus).filter(function (w) {
+        return appState.vocabStatus[w] === `mastered`;
+      }).length;
+      const vocabEl = document.getElementById('kpi-vocab-mastered');
+      if (vocabEl) vocabEl.textContent = `${masteredCount} / ${VOCAB_DATA.length}`;
+
+      const answeredIds = Object.keys(appState.quizAnswers);
+      const answeredCount = answeredIds.length;
+      const correctCount = answeredIds.filter(function (id) {
+        return appState.quizAnswers[id].isCorrect;
+      }).length;
+
+      const progEl = document.getElementById('kpi-quiz-progress');
+      if (progEl) progEl.textContent = `${answeredCount} / ${QUIZ_DATA.length}`;
+
+      const accEl = document.getElementById('kpi-initial-accuracy');
+      if (accEl) {
+        accEl.textContent = answeredCount > 0
+          ? `${Math.round((correctCount / answeredCount) * 100)}%`
+          : `--`;
+      }
+
+      const wrongIds = getWrongQuestionIds();
+      const pendingMistakes = wrongIds.filter(function (id) {
+        const p = appState.mistakePractice[id];
+        return !(p && p.mastered);
+      }).length;
+      const rectifiedCount = wrongIds.length - pendingMistakes;
+
+      const misEl = document.getElementById('kpi-mistake-pending');
+      const misNoteEl = document.getElementById('kpi-mistake-note');
+      const navMisEl = document.getElementById('nav-mistake-count');
+      if (misEl) misEl.textContent = `${pendingMistakes} 題`;
+      if (navMisEl) navMisEl.textContent = String(wrongIds.length);
+      if (misNoteEl) {
+        misNoteEl.textContent = wrongIds.length > 0
+          ? `共 ${wrongIds.length} 題錯題，其中 ${rectifiedCount} 題已於錯題區訂正（僅供複習）`
+          : `答錯題目將自動收入錯題複習專區`;
+      }
+    }
+
+    function computeAssessmentMetrics() {
+      const domains = [
+        { key: `ED`, label: `ED 10月號（克漏字與新聞閱讀）` },
+        { key: `L03`, label: `L03 Formosa（對照分析與細節）` },
+        { key: `L04`, label: `L04 Lab-Grown Meat（論證與態度）` },
+        { key: `VOCAB`, label: `CEEC L4–L6 高階詞彙運用` }
+      ];
+
+      let totalAnswered = 0;
+      let totalCorrect = 0;
+
+      const breakdown = domains.map(function (d) {
+        const qs = QUIZ_DATA.filter(function (q) { return q.domain === d.key; });
+        let ans = 0;
+        let cor = 0;
+        qs.forEach(function (q) {
+          const rec = appState.quizAnswers[q.id];
+          if (rec) {
+            ans += 1;
+            if (rec.isCorrect) cor += 1;
+          }
+        });
+        totalAnswered += ans;
+        totalCorrect += cor;
+        const pct = ans > 0 ? Math.round((cor / ans) * 100) : 0;
+        return {
+          key: d.key,
+          label: d.label,
+          total: qs.length,
+          answered: ans,
+          correct: cor,
+          pct: pct
+        };
+      });
+
+      const overallPct = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+      return {
+        totalQuestions: QUIZ_DATA.length,
+        totalAnswered: totalAnswered,
+        totalCorrect: totalCorrect,
+        overallPct: overallPct,
+        breakdown: breakdown
+      };
+    }
+
+    function getRankInfo(pct, answered) {
+      if (answered === 0) return { grade: `--`, title: `尚未評級`, advice: `請先至第 03 區作答正式測驗。` };
+      if (pct >= 90) return { grade: `A+`, title: `頂標精熟水準`, advice: `各單元閱讀策略與 L4–L6 高階詞彙掌握極佳，建議維持抽背手感。` };
+      if (pct >= 75) return { grade: `A`, title: `前標穩健水準`, advice: `核心架構掌握良好，建議針對錯題專區題目強化細節與高階單字搭配用法。` };
+      if (pct >= 60) return { grade: `B`, title: `均標待突破`, advice: `建議回到第 01 區重讀錯題所屬課文對照表，並將 Level 5–6 單字標記抽背。` };
+      return { grade: `C`, title: `需重點補強`, advice: `請優先複習 L03 文氏圖、L04 正反論點表與 ED 克漏字解析，再重做錯題訂正。` };
+    }
+
+    function renderAssessmentSection() {
+      const emptyEl = document.getElementById('assessment-empty');
+      const popEl = document.getElementById('assessment-populated');
+      const gradeEl = document.getElementById('assessment-grade-badge');
+      const titleEl = document.getElementById('assessment-title');
+      const subEl = document.getElementById('assessment-subtitle');
+      const rowsEl = document.getElementById('assessment-domain-rows');
+      const adviceEl = document.getElementById('assessment-advice-box');
+      if (!emptyEl || !popEl) return;
+
+      const metrics = computeAssessmentMetrics();
+      const wrongIds = getWrongQuestionIds();
+      const rectifiedCount = wrongIds.filter(function (id) {
+        return appState.mistakePractice[id] && appState.mistakePractice[id].mastered;
+      }).length;
+
+      if (metrics.totalAnswered === 0) {
+        if (assessmentChart) {
+          assessmentChart.destroy();
+          assessmentChart = null;
+        }
+        emptyEl.style.display = `flex`;
+        popEl.style.display = `none`;
+        return;
+      }
+
+      emptyEl.style.display = `none`;
+      popEl.style.display = `grid`;
+
+      const rank = getRankInfo(metrics.overallPct, metrics.totalAnswered);
+      const isComplete = metrics.totalAnswered === metrics.totalQuestions;
+      const weakDomains = metrics.breakdown.filter(function (b) { return b.answered > 0 && b.pct < 70; });
+      const unmasteredVocab = VOCAB_DATA.length - Object.keys(appState.vocabStatus).filter(function (w) {
+        return appState.vocabStatus[w] === `mastered`;
+      }).length;
+
+      if (gradeEl) gradeEl.textContent = rank.grade;
+      if (titleEl) titleEl.textContent = `${rank.title} · 正確率 ${metrics.overallPct}%`;
+      if (subEl) {
+        subEl.textContent = `正式完成 ${metrics.totalAnswered} / ${metrics.totalQuestions} 題（初次答對 ${metrics.totalCorrect} 題）${isComplete ? ` · 已完成全卷評估` : ` · 尚餘 ${metrics.totalQuestions - metrics.totalAnswered} 題未作答`}`;
+      }
+
+      if (rowsEl) {
+        rowsEl.innerHTML = metrics.breakdown.map(function (b) {
+          const statusText = b.answered === 0
+            ? `尚未作答`
+            : `${b.correct} / ${b.answered} 題正確（${b.pct}%）`;
+          return `
+            <div class="domain-row">
+              <div>
+                <strong>${b.label}</strong>
+                <div style="font-size:0.8rem; color:var(--on-surface-variant);">已測 ${b.answered} / ${b.total} 題</div>
+              </div>
+              <div style="font-family:var(--font-label); font-weight:600; font-size:0.875rem;">${statusText}</div>
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${b.answered > 0 ? b.pct : 0}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join(``);
+      }
+
+      const weakAdvice = weakDomains.length > 0
+        ? `<strong>優先補強單元：</strong>${weakDomains.map(function (w) { return `${w.label}（${w.pct}%）`; }).join(`、`) }。請回到第 01 區重新檢視該單元脈絡，並完成錯題專區二次練習。`
+        : `<strong>各作答單元均達 70% 以上！</strong>建議保持對 Level 5–6 進階詞彙（如 <em>infrastructure</em>, <em>torment</em>, <em>preliminary</em>, <em>contend</em>）的語境敏銳度。`;
+
+      if (adviceEl) {
+        adviceEl.innerHTML = `
+          <div style="font-weight:700; margin-bottom:var(--space-xs);">考前個人化診斷與建議</div>
+          <p style="margin:0 0 var(--space-xs) 0; font-size:0.9rem;">${rank.advice}</p>
+          <p style="margin:0 0 var(--space-xs) 0; font-size:0.9rem;">${weakAdvice}</p>
+          <p style="margin:0; font-size:0.85rem; color:var(--on-surface-variant);">
+            字彙庫尚有 <strong>${unmasteredVocab}</strong> 個 Level 4–6 單字未標記精熟；錯題專區已完成 <strong>${rectifiedCount} / ${wrongIds.length}</strong> 題二次訂正（訂正結果不影響上方 ${metrics.overallPct}% 評估分數）。
+          </p>
+        `;
+      }
+
+      renderAssessmentChart(metrics.breakdown);
+    }
+
+    function renderAssessmentChart(breakdown) {
+      const canvas = document.getElementById('assessment-chart');
+      if (!canvas || typeof window.Chart !== 'function') return;
+
+      const styles = getComputedStyle(document.documentElement);
+      const colors = [
+        styles.getPropertyValue('--data-1').trim(),
+        styles.getPropertyValue('--data-2').trim(),
+        styles.getPropertyValue('--data-3').trim(),
+        styles.getPropertyValue('--data-4').trim()
+      ];
+      const gridColor = styles.getPropertyValue('--outline-variant').trim();
+      const textColor = styles.getPropertyValue('--on-surface-variant').trim();
+
+      if (assessmentChart) {
+        assessmentChart.destroy();
+      }
+
+      assessmentChart = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: [`ED 10月號`, `L03 Formosa`, `L04 Lab-Grown Meat`, `L4–L6 字彙`],
+          datasets: [{
+            label: `初次作答正確率 (%)`,
+            data: breakdown.map(function (b) { return b.answered > 0 ? b.pct : 0; }),
+            backgroundColor: colors,
+            borderRadius: 4,
+            barPercentage: 0.56
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) {
+                  const item = breakdown[ctx.dataIndex];
+                  return item && item.answered > 0
+                    ? `正式正確率：${item.pct}% (${item.correct}/${item.answered} 題)`
+                    : `尚未作答`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: {
+                color: textColor,
+                callback: function (v) { return `${v}%`; }
+              },
+              grid: { color: gridColor }
+            },
+            x: {
+              ticks: { color: textColor },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    function exportAssessmentReport() {
+      const metrics = computeAssessmentMetrics();
+      const rank = getRankInfo(metrics.overallPct, metrics.totalAnswered);
+      const wrongIds = getWrongQuestionIds();
+      const lines = [
+        `高三英文段考互動複習 — 綜合性學習評估報告`,
+        `範圍：ED 10月號 × L03 Formosa × L04 Lab-Grown Meat × CEEC Level 4–6`,
+        `====================================================`,
+        `評量基準：僅採計正式測驗「初次作答」成績（不含錯題二次練習）`,
+        `綜合等第：${rank.grade}（${rank.title}）`,
+        `正式作答題數：${metrics.totalAnswered} / ${metrics.totalQuestions}`,
+        `正式初次答對：${metrics.totalCorrect} 題（正確率 ${metrics.overallPct}%）`,
+        ``,
+        `【各單元正式作答表現】`,
+        ...metrics.breakdown.map(function (b) {
+          return `- ${b.label}：${b.correct}/${b.answered} 題正確（${b.answered > 0 ? `${b.pct}%` : `未作答`}）`;
+        }),
+        ``,
+        `【錯題專區統計（不計入綜合分數）】`,
+        `收錄錯題數：${wrongIds.length} 題`,
+        `錯題編號：${wrongIds.length > 0 ? wrongIds.join(`, `) : `無`}`
+      ];
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+        window.notebookAppApi.triggerFileDownload({
+          content: lines.join(`\n`),
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `senior3-english-assessment.txt`
+        });
+      }
+    }
+
+    // Boot
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
